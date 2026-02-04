@@ -1,44 +1,61 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Mail, MapPin, Send, Linkedin, Github, CheckCircle } from 'lucide-react';
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useTranslation } from "react-i18next";
+import {
+  Mail,
+  MapPin,
+  Send,
+  Linkedin,
+  Github,
+  CheckCircle,
+} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const contactInfo = [
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'leomoyano7@gmail.com',
-    href: 'mailto:leomoyano7@gmail.com',
-  },
-  {
-    icon: MapPin,
-    label: 'Ubicación',
-    value: 'Tucumán, Argentina',
-    href: '#',
-  },
-];
-
-const socialLinks = [
-  { icon: Github, href: 'https://github.com/leomoyano', label: 'GitHub' },
-  { icon: Linkedin, href: 'https://linkedin.com/in/leonardomoyano7', label: 'LinkedIn' },
-];
-
 export default function Contact() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: "",
+    email: "",
+    message: "",
   });
+
+  const contactInfo = [
+    {
+      icon: Mail,
+      label: "Email",
+      value: "leomoyano7@gmail.com",
+      href: "mailto:leomoyano7@gmail.com",
+    },
+    {
+      icon: MapPin,
+      label: t("contact.email"),
+      value: "Tucumán, Argentina",
+      href: "#",
+    },
+  ];
+
+  // Precise update of labels for contactInfo
+  contactInfo[0].label = t("contact.email");
+  contactInfo[1].label = t("contact.badge");
+
+  const socialLinks = [
+    { icon: Github, href: "https://github.com/leomoyano", label: "GitHub" },
+    {
+      icon: Linkedin,
+      href: "https://linkedin.com/in/leonardomoyano7",
+      label: "LinkedIn",
+    },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -49,8 +66,8 @@ export default function Contact() {
         duration: 0.8,
         scrollTrigger: {
           trigger: headingRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         },
       });
 
@@ -62,8 +79,8 @@ export default function Contact() {
         duration: 0.8,
         scrollTrigger: {
           trigger: contentRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
+          start: "top 75%",
+          toggleActions: "play none none reverse",
         },
       });
     }, sectionRef);
@@ -74,20 +91,40 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', message: '' });
-    
-    // Reset success message after 5 seconds
-    setTimeout(() => setIsSubmitted(false), 5000);
+
+    try {
+      const FORMSPREE_ID = "xojnaqvv";
+      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", message: "" });
+        // Reset success message after 5 seconds
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        const data = await response.json();
+        throw new Error(data.error || "Error al enviar el mensaje");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert(
+        t("contact.error") ||
+          "Hubo un error al enviar el mensaje. Por favor intenta de nuevo.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData((prev) => ({
       ...prev,
@@ -109,15 +146,14 @@ export default function Contact() {
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-16">
           <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            Contacto
+            {t("contact.badge")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Conectemos
+            {t("contact.title")}
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            ¿Buscas talento para tu equipo? Estoy abierto a escuchar sobre
-            oportunidades que se alineen con mis habilidades y objetivos profesionales.
+            {t("contact.subtitle")}
           </p>
         </div>
 
@@ -126,13 +162,9 @@ export default function Contact() {
           <div className="space-y-8">
             <div>
               <h3 className="text-2xl font-bold text-white mb-6">
-                Información de Contacto
+                {t("contact.infoTitle")}
               </h3>
-              <p className="text-gray-400 mb-8">
-                Si eres reclutador o representas a una empresa en busca de talento,
-                no dudes en contactarme. Estaré encantado de conversar sobre
-                oportunidades profesionales.
-              </p>
+              <p className="text-gray-400 mb-8">{t("contact.infoText")}</p>
             </div>
 
             {/* Contact cards */}
@@ -159,7 +191,7 @@ export default function Contact() {
             {/* Social links */}
             <div>
               <h4 className="text-lg font-semibold text-white mb-4">
-                Sígueme en
+                {t("contact.followMe")}
               </h4>
               <div className="flex gap-3">
                 {socialLinks.map((social) => (
@@ -181,7 +213,7 @@ export default function Contact() {
           {/* Contact Form */}
           <div className="glass rounded-2xl p-6 lg:p-8">
             <h3 className="text-xl font-bold text-white mb-6">
-              Envíame una propuesta
+              {t("contact.formTitle")}
             </h3>
 
             {isSubmitted ? (
@@ -190,11 +222,9 @@ export default function Contact() {
                   <CheckCircle className="w-8 h-8 text-green-500" />
                 </div>
                 <h4 className="text-xl font-bold text-white mb-2">
-                  ¡Mensaje enviado!
+                  {t("contact.success")}
                 </h4>
-                <p className="text-gray-400">
-                  Gracias por contactarme. Te responderé pronto.
-                </p>
+                <p className="text-gray-400">{t("contact.successText")}</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -203,7 +233,7 @@ export default function Contact() {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Nombre
+                    {t("contact.name")}
                   </label>
                   <Input
                     id="name"
@@ -212,7 +242,7 @@ export default function Contact() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="Tu nombre"
+                    placeholder={t("contact.namePlaceholder")}
                     className="bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 focus:border-[#3b82f6] focus:ring-[#3b82f6]/20"
                   />
                 </div>
@@ -222,7 +252,7 @@ export default function Contact() {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Email
+                    {t("contact.email")}
                   </label>
                   <Input
                     id="email"
@@ -231,7 +261,7 @@ export default function Contact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="tu@email.com"
+                    placeholder={t("contact.emailPlaceholder")}
                     className="bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 focus:border-[#3b82f6] focus:ring-[#3b82f6]/20"
                   />
                 </div>
@@ -241,7 +271,7 @@ export default function Contact() {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-300 mb-2"
                   >
-                    Mensaje
+                    {t("contact.message")}
                   </label>
                   <Textarea
                     id="message"
@@ -249,7 +279,7 @@ export default function Contact() {
                     required
                     value={formData.message}
                     onChange={handleChange}
-                    placeholder="Cuéntame sobre la oportunidad profesional..."
+                    placeholder={t("contact.messagePlaceholder")}
                     rows={5}
                     className="bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 focus:border-[#3b82f6] focus:ring-[#3b82f6]/20 resize-none"
                   />
@@ -262,10 +292,7 @@ export default function Contact() {
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
-                      <svg
-                        className="animate-spin h-5 w-5"
-                        viewBox="0 0 24 24"
-                      >
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                         <circle
                           className="opacity-25"
                           cx="12"
@@ -281,12 +308,12 @@ export default function Contact() {
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         />
                       </svg>
-                      Enviando...
+                      {t("contact.sending")}
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
                       <Send className="w-5 h-5" />
-                      Enviar Mensaje
+                      {t("contact.send")}
                     </span>
                   )}
                 </Button>
