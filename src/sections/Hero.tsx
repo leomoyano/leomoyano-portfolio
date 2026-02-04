@@ -1,12 +1,14 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Button } from '@/components/ui/button';
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
+import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -34,7 +36,7 @@ export default function Hero() {
         opacity: 1,
         y: 0,
         duration: 1,
-        ease: 'power3.out',
+        ease: "power3.out",
       })
         .to(
           subtitleRef.current,
@@ -42,9 +44,9 @@ export default function Hero() {
             opacity: 1,
             y: 0,
             duration: 1,
-            ease: 'power3.out',
+            ease: "power3.out",
           },
-          '-=0.7'
+          "-=0.7",
         )
         .to(
           ctaRef.current,
@@ -52,9 +54,9 @@ export default function Hero() {
             opacity: 1,
             y: 0,
             duration: 1,
-            ease: 'power3.out',
+            ease: "power3.out",
           },
-          '-=0.7'
+          "-=0.7",
         )
         .to(
           imageRef.current,
@@ -63,9 +65,9 @@ export default function Hero() {
             scale: 1,
             rotateY: 0,
             duration: 1.2,
-            ease: 'power3.out',
+            ease: "power3.out",
           },
-          '-=0.9'
+          "-=0.9",
         );
 
       // Scroll parallax effect
@@ -73,8 +75,8 @@ export default function Hero() {
         y: 80,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
+          start: "top top",
+          end: "bottom top",
           scrub: 1,
         },
       });
@@ -83,8 +85,8 @@ export default function Hero() {
         y: -40,
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',
-          end: 'bottom top',
+          start: "top top",
+          end: "bottom top",
           scrub: 1,
         },
       });
@@ -94,16 +96,16 @@ export default function Hero() {
   }, []);
 
   const scrollToProjects = () => {
-    const element = document.querySelector('#projects');
+    const element = document.querySelector("#projects");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   const scrollToAbout = () => {
-    const element = document.querySelector('#about');
+    const element = document.querySelector("#about");
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -117,15 +119,18 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[#0a0f1c]">
         {/* Gradient orbs */}
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#3b82f6]/10 rounded-full blur-[120px] animate-pulse-glow" />
-        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#06b6d4]/10 rounded-full blur-[100px] animate-pulse-glow" style={{ animationDelay: '1.5s' }} />
-        
+        <div
+          className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#06b6d4]/10 rounded-full blur-[100px] animate-pulse-glow"
+          style={{ animationDelay: "1.5s" }}
+        />
+
         {/* Grid pattern */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(rgba(59, 130, 246, 0.5) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(59, 130, 246, 0.5) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
+            backgroundSize: "60px 60px",
           }}
         />
       </div>
@@ -133,36 +138,39 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
-          <div ref={contentRef} className="order-2 lg:order-1 text-center lg:text-left">
+          <div
+            ref={contentRef}
+            className="order-2 lg:order-1 text-center lg:text-left"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-sm text-gray-300">Abierto a nuevas oportunidades</span>
+              <span className="text-sm text-gray-300">{t("hero.status")}</span>
             </div>
 
             <h1
               ref={titleRef}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-6"
             >
-              Leonardo{' '}
-              <span className="text-gradient">Moyano</span>
+              Leonardo <span className="text-gradient">Moyano</span>
             </h1>
 
             <p
               ref={subtitleRef}
               className="text-lg sm:text-xl text-gray-400 max-w-xl mx-auto lg:mx-0 mb-8"
             >
-              Frontend Developer con 5+ años de experiencia construyendo aplicaciones web 
-              escalables con React, Next.js y TypeScript. Especializado en optimización de 
-              performance, design systems y herramientas de IA para desarrollo.
+              {t("hero.subtitle")}
             </p>
 
-            <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+            <div
+              ref={ctaRef}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10"
+            >
               <Button
                 onClick={scrollToProjects}
                 size="lg"
                 className="bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] hover:opacity-90 text-white font-semibold px-8 py-6 text-lg group"
               >
-                Ver Proyectos
+                {t("hero.ctaProjects")}
                 <ArrowDown className="ml-2 w-5 h-5 group-hover:translate-y-1 transition-transform" />
               </Button>
               <Button
@@ -171,14 +179,14 @@ export default function Hero() {
                 size="lg"
                 className="border-gray-600 text-white hover:bg-white/10 px-8 py-6 text-lg"
               >
-                Sobre Mí
+                {t("hero.ctaAbout")}
               </Button>
             </div>
 
             {/* Social links */}
             <div className="flex gap-4 justify-center lg:justify-start">
               <a
-                href="https://github.com/leonardomoyano7"
+                href="https://github.com/leomoyano"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-12 h-12 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#3b82f6]/20 transition-all"
@@ -207,11 +215,11 @@ export default function Hero() {
             <div
               ref={imageRef}
               className="relative"
-              style={{ perspective: '1000px' }}
+              style={{ perspective: "1000px" }}
             >
               {/* Glow effect behind image */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/30 to-[#06b6d4]/30 rounded-3xl blur-2xl scale-110" />
-              
+
               {/* Main image container */}
               <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px] rounded-3xl overflow-hidden glass p-2">
                 <div className="w-full h-full rounded-2xl overflow-hidden">
@@ -226,15 +234,19 @@ export default function Hero() {
               {/* Floating badges */}
               <div className="absolute -bottom-4 -left-4 glass rounded-xl px-4 py-3 animate-float">
                 <div className="text-2xl font-bold text-gradient">5+</div>
-                <div className="text-xs text-gray-400">Años Exp.</div>
+                <div className="text-xs text-gray-400">
+                  {t("hero.expYears")}
+                </div>
               </div>
 
-              <div 
+              <div
                 className="absolute -top-4 -right-4 glass rounded-xl px-4 py-3 animate-float"
-                style={{ animationDelay: '1s' }}
+                style={{ animationDelay: "1s" }}
               >
                 <div className="text-2xl font-bold text-gradient">4</div>
-                <div className="text-xs text-gray-400">Empresas</div>
+                <div className="text-xs text-gray-400">
+                  {t("hero.companies")}
+                </div>
               </div>
             </div>
           </div>

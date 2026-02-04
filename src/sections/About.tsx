@@ -1,23 +1,25 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Code2, Palette, Lightbulb, Rocket } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Code2, Palette, Lightbulb, Rocket } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const stats = [
-  { value: '5+', label: 'Años de Experiencia', icon: Rocket },
-  { value: '4', label: 'Empresas', icon: Code2 },
-  { value: 'B2', label: 'Inglés', icon: Palette },
-  { value: '100%', label: 'Compromiso', icon: Lightbulb },
-];
-
 export default function About() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+
+  const stats = [
+    { value: "5+", label: t("about.stats.exp"), icon: Rocket },
+    { value: "4", label: t("about.stats.companies"), icon: Code2 },
+    { value: "B2", label: t("about.stats.english"), icon: Palette },
+    { value: "Agile", label: t("about.stats.agile"), icon: Lightbulb },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -28,8 +30,8 @@ export default function About() {
         duration: 0.8,
         scrollTrigger: {
           trigger: headingRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         },
       });
 
@@ -41,8 +43,8 @@ export default function About() {
         duration: 0.8,
         scrollTrigger: {
           trigger: contentRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
+          start: "top 75%",
+          toggleActions: "play none none reverse",
         },
       });
 
@@ -54,8 +56,8 @@ export default function About() {
         duration: 1,
         scrollTrigger: {
           trigger: imageRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
+          start: "top 75%",
+          toggleActions: "play none none reverse",
         },
       });
 
@@ -68,8 +70,8 @@ export default function About() {
         duration: 0.6,
         scrollTrigger: {
           trigger: statsRef.current,
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
+          start: "top 85%",
+          toggleActions: "play none none reverse",
         },
       });
     }, sectionRef);
@@ -91,14 +93,15 @@ export default function About() {
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-16">
           <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            Perfil
+            {t("about.badge")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Sobre <span className="text-gradient">Mí</span>
+            {t("about.title")}{" "}
+            <span className="text-gradient">{t("about.titleAccent")}</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            Un vistazo a quién soy como profesional y qué me motiva en mi carrera.
+            {t("about.subtitle")}
           </p>
         </div>
 
@@ -108,13 +111,13 @@ export default function About() {
             <div className="relative rounded-2xl overflow-hidden">
               {/* Glow effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-[#3b82f6]/20 to-[#06b6d4]/20 opacity-0 hover:opacity-100 transition-opacity duration-500" />
-              
+
               <img
                 src="/workspace.jpg"
                 alt="Workspace"
                 className="w-full h-auto rounded-2xl"
               />
-              
+
               {/* Overlay gradient */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1c]/80 via-transparent to-transparent" />
             </div>
@@ -127,41 +130,35 @@ export default function About() {
           {/* Content */}
           <div ref={contentRef} className="order-1 lg:order-2">
             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
-              Desarrollador apasionado por{' '}
-              <span className="text-gradient">crear valor</span>
+              {t("about.bodyTitle")}{" "}
+              <span className="text-gradient">
+                {t("about.bodyTitleAccent")}
+              </span>
             </h3>
 
             <div className="space-y-4 text-gray-400 leading-relaxed">
-              <p>
-                Soy Frontend Developer con 5+ años de experiencia construyendo 
-                aplicaciones web escalables usando React, Next.js y TypeScript. 
-                He trabajado en equipos ágiles de startups y empresas establecidas, 
-                colaborando con equipos multiculturales en LATAM y Estados Unidos.
-              </p>
-              <p>
-                Mi especialidad incluye optimización de performance, design systems 
-                y UI libraries modernas. Co-creé un Design System adoptado por múltiples 
-                equipos para garantizar escalabilidad y consistencia en los productos.
-              </p>
-              <p>
-                Utilizo herramientas de IA (ChatGPT, Claude, Gemini, Cursor) para 
-                mejorar la calidad del código, documentación y velocidad de desarrollo. 
-                Busco una oportunidad remota donde pueda aportar valor y seguir creciendo.
-              </p>
+              <p>{t("about.p1")}</p>
+              <p>{t("about.p2")}</p>
+              <p>{t("about.p3")}</p>
             </div>
 
             {/* Skills tags */}
             <div className="flex flex-wrap gap-2 mt-8">
-              {['React', 'Next.js', 'TypeScript', 'Chakra UI', 'Tailwind CSS', 'Zustand'].map(
-                (skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 rounded-lg glass text-sm text-gray-300 hover:text-white hover:border-[#3b82f6]/50 transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                )
-              )}
+              {[
+                "React",
+                "Next.js",
+                "TypeScript",
+                "Chakra UI",
+                "Tailwind CSS",
+                "Zustand",
+              ].map((skill) => (
+                <span
+                  key={skill}
+                  className="px-4 py-2 rounded-lg glass text-sm text-gray-300 hover:text-white hover:border-[#3b82f6]/50 transition-colors cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
             </div>
           </div>
         </div>

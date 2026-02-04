@@ -1,78 +1,80 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Briefcase, Calendar, MapPin, ChevronRight } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Briefcase, Calendar, MapPin, ChevronRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const experiences = [
-  {
-    id: 1,
-    role: 'Front End Developer',
-    company: 'Finalis',
-    location: 'San Francisco, California, USA (Remoto)',
-    period: 'Nov 2022 - Presente',
-    description:
-      'Desarrollo y mantengo componentes UI reutilizables, reduciendo el tiempo de entrega de features. Co-creador de un Design System adoptado por múltiples equipos para escalabilidad y consistencia.',
-    achievements: [
-      'Reduje el tiempo de entrega de features con componentes reutilizables',
-      'Co-cree un Design System adoptado por equipos de toda la empresa',
-      'Identifiqué y resolví vulnerabilidades de seguridad en paquetes',
-    ],
-    technologies: ['React', 'TypeScript', 'Chakra UI', 'GraphQL', 'Docker'],
-  },
-  {
-    id: 2,
-    role: 'Front End Developer',
-    company: 'The Fuzzy Fish - Digital Works',
-    location: 'Córdoba, Argentina',
-    period: 'Dic 2020 - Nov 2022',
-    description:
-      'Entregué features listos para producción en plataformas SaaS y fintech, colaborando con equipos multiculturales en LATAM y clientes de EE.UU. Enfoque en performance, accesibilidad y código mantenible.',
-    achievements: [
-      'Entregué features para plataformas SaaS y fintech',
-      'Colaboré con equipos multiculturales en LATAM y EE.UU.',
-      'Implementé interfaces con React y TypeScript enfocadas en accesibilidad',
-    ],
-    technologies: ['React', 'TypeScript', 'Styled Components', 'Redux Toolkit'],
-  },
-  {
-    id: 3,
-    role: 'Front-End Developer',
-    company: 'RollingCode School',
-    location: 'Tucumán, Argentina',
-    period: 'Ene 2020 - Feb 2021',
-    description:
-      'Trabajé directamente con clientes locales en proyectos como Giros y Finanzas (Colombia), Laboris y Stars (Argentina). Gané experiencia temprana en entrega completa de proyectos.',
-    achievements: [
-      'Desarrollé proyectos para clientes en Colombia y Argentina',
-      'Trabajé directamente con clientes locales',
-      'Adquirí experiencia en entrega completa de proyectos',
-    ],
-    technologies: ['JavaScript', 'React', 'HTML/CSS', 'Bootstrap'],
-  },
-  {
-    id: 4,
-    role: 'Front-End Developer',
-    company: 'Panacea Soft',
-    location: 'Tucumán, Argentina',
-    period: 'Sep 2019 - Ene 2020',
-    description:
-      'Desarrollé un sistema completo para clínicas, desde turnos para pacientes hasta la organización del personal. Colaboré en un equipo pequeño enfocado en diseño responsive y componentes reutilizables.',
-    achievements: [
-      'Desarrollé sistema de gestión de turnos para clínicas',
-      'Implementé diseño responsive y componentes reutilizables',
-      'Trabajé en equipo colaborativo con metodologías ágiles',
-    ],
-    technologies: ['JavaScript', 'React', 'HTML/CSS', 'Material UI'],
-  },
-];
-
 export default function Experience() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+
+  const experiences = [
+    {
+      id: 1,
+      role: t("experience.jobs.finalis.role"),
+      company: "Finalis",
+      location: `San Francisco, California, USA (${t("experience.remote")})`,
+      period: `Nov 2022 - ${t("experience.present")}`,
+      description: t("experience.jobs.finalis.description"),
+      achievements: t("experience.jobs.finalis.achievements", {
+        returnObjects: true,
+      }) as string[],
+      technologies: [
+        "React",
+        "TypeScript",
+        "NextJs",
+        "Chakra UI",
+        "GraphQL",
+        "Docker",
+      ],
+    },
+    {
+      id: 2,
+      role: t("experience.jobs.fuzzy.role"),
+      company: "The Fuzzy Fish - Digital Works",
+      location: "Córdoba, Argentina",
+      period: "Dic 2020 - Nov 2022",
+      description: t("experience.jobs.fuzzy.description"),
+      achievements: t("experience.jobs.fuzzy.achievements", {
+        returnObjects: true,
+      }) as string[],
+      technologies: [
+        "React",
+        "TypeScript",
+        "Styled Components",
+        "Redux Toolkit",
+      ],
+    },
+    {
+      id: 3,
+      role: t("experience.jobs.rolling.role"),
+      company: "RollingCode School",
+      location: "Tucumán, Argentina",
+      period: "Ene 2020 - Feb 2021",
+      description: t("experience.jobs.rolling.description"),
+      achievements: t("experience.jobs.rolling.achievements", {
+        returnObjects: true,
+      }) as string[],
+      technologies: ["JavaScript", "React", "HTML/CSS", "Bootstrap"],
+    },
+    {
+      id: 4,
+      role: t("experience.jobs.panacea.role"),
+      company: "Panacea Soft",
+      location: "Tucumán, Argentina",
+      period: "Sep 2019 - Ene 2020",
+      description: t("experience.jobs.panacea.description"),
+      achievements: t("experience.jobs.panacea.achievements", {
+        returnObjects: true,
+      }) as string[],
+      technologies: ["JavaScript", "React", "HTML/CSS", "Material UI"],
+    },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -83,26 +85,26 @@ export default function Experience() {
         duration: 0.8,
         scrollTrigger: {
           trigger: headingRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         },
       });
 
       // Timeline line draw animation
       gsap.from(lineRef.current, {
         scaleY: 0,
-        transformOrigin: 'top',
+        transformOrigin: "top",
         duration: 1.5,
-        ease: 'power2.out',
+        ease: "power2.out",
         scrollTrigger: {
           trigger: timelineRef.current,
-          start: 'top 70%',
-          toggleActions: 'play none none reverse',
+          start: "top 70%",
+          toggleActions: "play none none reverse",
         },
       });
 
       // Experience cards animation
-      const cards = timelineRef.current?.querySelectorAll('.experience-card');
+      const cards = timelineRef.current?.querySelectorAll(".experience-card");
       cards?.forEach((card, index) => {
         gsap.from(card, {
           opacity: 0,
@@ -111,24 +113,24 @@ export default function Experience() {
           delay: index * 0.2,
           scrollTrigger: {
             trigger: card,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
+            start: "top 80%",
+            toggleActions: "play none none reverse",
           },
         });
       });
 
       // Timeline dots animation
-      const dots = timelineRef.current?.querySelectorAll('.timeline-dot');
+      const dots = timelineRef.current?.querySelectorAll(".timeline-dot");
       dots?.forEach((dot, index) => {
         gsap.from(dot, {
           scale: 0,
           duration: 0.4,
           delay: 0.3 + index * 0.2,
-          ease: 'back.out(2)',
+          ease: "back.out(2)",
           scrollTrigger: {
             trigger: dot,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
+            start: "top 80%",
+            toggleActions: "play none none reverse",
           },
         });
       });
@@ -150,15 +152,15 @@ export default function Experience() {
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-16">
           <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            Trayectoria
+            {t("experience.badge")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Experiencia <span className="text-gradient">Profesional</span>
+            {t("experience.title")}{" "}
+            <span className="text-gradient">{t("experience.titleAccent")}</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            Mi recorrido profesional en el mundo del desarrollo de software,
-            destacando logros y responsabilidades en cada rol.
+            {t("experience.subtitle")}
           </p>
         </div>
 
@@ -179,7 +181,7 @@ export default function Experience() {
               <div
                 key={exp.id}
                 className={`relative lg:grid lg:grid-cols-2 lg:gap-8 ${
-                  index !== experiences.length - 1 ? 'lg:pb-16' : ''
+                  index !== experiences.length - 1 ? "lg:pb-16" : ""
                 }`}
               >
                 {/* Timeline dot */}
@@ -191,15 +193,15 @@ export default function Experience() {
                 <div
                   className={`experience-card ml-16 lg:ml-0 ${
                     index % 2 === 0
-                      ? 'lg:pr-16 lg:text-right'
-                      : 'lg:col-start-2 lg:pl-16'
+                      ? "lg:pr-16 lg:text-right"
+                      : "lg:col-start-2 lg:pl-16"
                   }`}
                 >
                   <div className="glass rounded-2xl p-6 hover:bg-[#111827]/80 transition-colors group">
                     {/* Header */}
                     <div
                       className={`flex flex-wrap items-center gap-3 mb-4 ${
-                        index % 2 === 0 ? 'lg:justify-end' : ''
+                        index % 2 === 0 ? "lg:justify-end" : ""
                       }`}
                     >
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#3b82f6]/20 text-[#3b82f6] text-sm">
@@ -232,14 +234,14 @@ export default function Experience() {
                     <div className="mb-4">
                       <ul
                         className={`space-y-2 ${
-                          index % 2 === 0 ? 'lg:text-right' : ''
+                          index % 2 === 0 ? "lg:text-right" : ""
                         }`}
                       >
                         {exp.achievements.map((achievement, i) => (
                           <li
                             key={i}
                             className={`flex items-center gap-2 text-sm text-gray-300 ${
-                              index % 2 === 0 ? 'lg:flex-row-reverse' : ''
+                              index % 2 === 0 ? "lg:flex-row-reverse" : ""
                             }`}
                           >
                             <ChevronRight className="w-4 h-4 text-[#3b82f6] flex-shrink-0" />
@@ -252,7 +254,7 @@ export default function Experience() {
                     {/* Technologies */}
                     <div
                       className={`flex flex-wrap gap-2 ${
-                        index % 2 === 0 ? 'lg:justify-end' : ''
+                        index % 2 === 0 ? "lg:justify-end" : ""
                       }`}
                     >
                       {exp.technologies.map((tech) => (
@@ -268,9 +270,7 @@ export default function Experience() {
                 </div>
 
                 {/* Empty column for alternating layout */}
-                {index % 2 === 0 && (
-                  <div className="hidden lg:block" />
-                )}
+                {index % 2 === 0 && <div className="hidden lg:block" />}
               </div>
             ))}
           </div>
