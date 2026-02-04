@@ -1,105 +1,114 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { 
-  Code2, 
-  Palette, 
-  Database, 
-  Terminal as TerminalIcon, 
-  Cpu 
-} from 'lucide-react';
-import { 
-  SiReact, 
-  SiNextdotjs, 
-  SiTypescript, 
-  SiJavascript, 
-  SiHtml5, 
-  SiChakraui, 
-  SiTailwindcss, 
-  SiStyledcomponents, 
-  SiMui, 
-  SiFigma, 
-  SiRedux, 
-  SiGraphql, 
-  SiZod, 
-  SiGithub, 
-  SiCypress, 
-  SiTestinglibrary, 
-  SiDocker, 
-  SiVercel, 
-  SiOpenai, 
-  SiGooglecloud 
-} from 'react-icons/si';
-import { RiRestTimeLine } from 'react-icons/ri';
-import { VscVscode } from 'react-icons/vsc';
-import { BiSolidZap } from 'react-icons/bi';
-import { TbMessageChatbot } from 'react-icons/tb';
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslation } from "react-i18next";
+import {
+  Code2,
+  Palette,
+  Database,
+  Terminal as TerminalIcon,
+  Cpu,
+} from "lucide-react";
+import {
+  SiReact,
+  SiNextdotjs,
+  SiTypescript,
+  SiJavascript,
+  SiHtml5,
+  SiChakraui,
+  SiTailwindcss,
+  SiStyledcomponents,
+  SiMui,
+  SiRedux,
+  SiGraphql,
+  SiZod,
+  SiGithub,
+  SiCypress,
+  SiTestinglibrary,
+  SiDocker,
+  SiVercel,
+  SiOpenai,
+  SiStorybook,
+  SiShadcnui,
+} from "react-icons/si";
+import {
+  RiClaudeFill,
+  RiGeminiFill,
+  RiGitForkFill,
+  RiHeart3Fill,
+  RiCopilotFill,
+} from "react-icons/ri";
+import { BiSolidZap } from "react-icons/bi";
+import { TbHexagonLetterCFilled } from "react-icons/tb";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skillCategories = [
-  {
-    name: 'Frontend Core',
-    icon: Code2,
-    skills: [
-      { name: 'React.js', icon: SiReact, color: '#61DAFB' },
-      { name: 'Next.js', icon: SiNextdotjs, color: '#ffffff' },
-      { name: 'TypeScript', icon: SiTypescript, color: '#3178C6' },
-      { name: 'JavaScript', icon: SiJavascript, color: '#F7DF1E' },
-      { name: 'HTML5/CSS3', icon: SiHtml5, color: '#E34F26' },
-    ],
-  },
-  {
-    name: 'UI & Styling',
-    icon: Palette,
-    skills: [
-      { name: 'Chakra UI', icon: SiChakraui, color: '#319795' },
-      { name: 'Tailwind CSS', icon: SiTailwindcss, color: '#06B6D4' },
-      { name: 'Styled Comp.', icon: SiStyledcomponents, color: '#DB7093' },
-      { name: 'Material UI', icon: SiMui, color: '#0081CB' },
-      { name: 'Figma', icon: SiFigma, color: '#F24E1E' },
-    ],
-  },
-  {
-    name: 'State & Data',
-    icon: Database,
-    skills: [
-      { name: 'Zustand', icon: BiSolidZap, color: '#443e38' },
-      { name: 'Redux', icon: SiRedux, color: '#764ABC' },
-      { name: 'GraphQL', icon: SiGraphql, color: '#E10098' },
-      { name: 'REST APIs', icon: RiRestTimeLine, color: '#FF6C37' },
-      { name: 'Zod', icon: SiZod, color: '#3178C6' },
-    ],
-  },
-  {
-    name: 'Testing & Tools',
-    icon: TerminalIcon,
-    skills: [
-      { name: 'Git / GitHub', icon: SiGithub, color: '#F05032' },
-      { name: 'Cypress', icon: SiCypress, color: '#17202C' },
-      { name: 'RTL', icon: SiTestinglibrary, color: '#E33332' },
-      { name: 'Docker', icon: SiDocker, color: '#2496ED' },
-      { name: 'Vercel / CI', icon: SiVercel, color: '#ffffff' },
-    ],
-  },
-  {
-    name: 'AI Tools',
-    icon: Cpu,
-    skills: [
-      { name: 'ChatGPT', icon: SiOpenai, color: '#10a37f' },
-      { name: 'Claude', icon: TbMessageChatbot, color: '#d97757' },
-      { name: 'Gemini', icon: SiGooglecloud, color: '#1a73e8' },
-      { name: 'Cursor', icon: VscVscode, color: '#3b82f6' },
-      { name: 'Copilot', icon: SiGithub, color: '#ffffff' },
-    ],
-  },
-];
-
 export default function Skills() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
   const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+
+  const skillCategories = [
+    {
+      name: "Frontend Core",
+      icon: Code2,
+      skills: [
+        { name: "React.js", icon: SiReact, color: "#61DAFB" },
+        { name: "Next.js", icon: SiNextdotjs, color: "#ffffff" },
+        { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+        { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+        { name: "HTML5/CSS3", icon: SiHtml5, color: "#E34F26" },
+      ],
+    },
+    {
+      name: "UI & Styling",
+      icon: Palette,
+      skills: [
+        { name: "Chakra UI", icon: SiChakraui, color: "#319795" },
+        { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+        { name: "Styled Comp.", icon: SiStyledcomponents, color: "#DB7093" },
+        { name: "Material UI", icon: SiMui, color: "#0081CB" },
+        { name: "Shadcn UI", icon: SiShadcnui, color: "#F24E1E" },
+        { name: "Storybook", icon: SiStorybook, color: "#F24E1E" },
+      ],
+    },
+    {
+      name: "State & Data",
+      icon: Database,
+      skills: [
+        { name: "Zustand", icon: BiSolidZap, color: "#443e38" },
+        { name: "Redux", icon: SiRedux, color: "#764ABC" },
+        { name: "GraphQL", icon: SiGraphql, color: "#E10098" },
+        { name: "REST APIs", icon: RiGitForkFill, color: "#FF6C37" },
+        { name: "Zod", icon: SiZod, color: "#3178C6" },
+      ],
+    },
+    {
+      name: "Testing & Tools",
+      icon: TerminalIcon,
+      skills: [
+        { name: "Git / GitHub", icon: SiGithub, color: "#F05032" },
+        { name: "Cypress", icon: SiCypress, color: "#17202C" },
+        { name: "RTL", icon: SiTestinglibrary, color: "#E33332" },
+        { name: "Docker", icon: SiDocker, color: "#2496ED" },
+        { name: "Vercel / CI", icon: SiVercel, color: "#ffffff" },
+      ],
+    },
+    {
+      name: "AI Tools",
+      icon: Cpu,
+      skills: [
+        { name: "ChatGPT", icon: SiOpenai, color: "#10a37f" },
+        { name: "Claude", icon: RiClaudeFill, color: "#d97757" },
+        { name: "Gemini", icon: RiGeminiFill, color: "#1a73e8" },
+        { name: "Cursor", icon: TbHexagonLetterCFilled, color: "#3b82f6" },
+        { name: "Copilot", icon: RiCopilotFill, color: "#ffffff" },
+        { name: "Lovable", icon: RiHeart3Fill, color: "#ffffff" },
+      ],
+    },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -110,13 +119,13 @@ export default function Skills() {
         duration: 0.8,
         scrollTrigger: {
           trigger: headingRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         },
       });
 
       // Category cards animation
-      const cards = categoriesRef.current?.querySelectorAll('.skill-category');
+      const cards = categoriesRef.current?.querySelectorAll(".skill-category");
       cards?.forEach((card, index) => {
         gsap.from(card, {
           opacity: 0,
@@ -126,8 +135,8 @@ export default function Skills() {
           delay: index * 0.1,
           scrollTrigger: {
             trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            start: "top 85%",
+            toggleActions: "play none none reverse",
           },
         });
       });
@@ -150,14 +159,15 @@ export default function Skills() {
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-16">
           <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            Competencias
+            {t("skills.badge")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Stack <span className="text-gradient">Tecnológico</span>
+            {t("skills.title")}{" "}
+            <span className="text-gradient">{t("skills.titleAccent")}</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            Herramientas y tecnologías que domino para construir productos digitales de alto impacto.
+            {t("skills.subtitle")}
           </p>
         </div>
 
@@ -165,7 +175,7 @@ export default function Skills() {
         <div
           ref={categoriesRef}
           className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
-          style={{ perspective: '1000px' }}
+          style={{ perspective: "1000px" }}
         >
           {skillCategories.map((category) => (
             <div
@@ -191,20 +201,26 @@ export default function Skills() {
                     onMouseEnter={() => setHoveredSkill(skill.name)}
                     onMouseLeave={() => setHoveredSkill(null)}
                   >
-                    <div 
+                    <div
                       className="w-12 h-12 rounded-lg bg-[#1e293b] flex items-center justify-center transition-all duration-300 group-hover:bg-[#334155] border border-transparent group-hover:border-[#3b82f6]/30 relative overflow-hidden"
                       style={{
-                        boxShadow: hoveredSkill === skill.name ? `0 0 15px ${skill.color}30` : 'none'
+                        boxShadow:
+                          hoveredSkill === skill.name
+                            ? `0 0 15px ${skill.color}30`
+                            : "none",
                       }}
                     >
-                      <skill.icon 
+                      <skill.icon
                         className="w-7 h-7 transition-all duration-300 grayscale group-hover:grayscale-0"
-                        style={{ color: hoveredSkill === skill.name ? skill.color : '#94a3b8' }}
+                        style={{
+                          color:
+                            hoveredSkill === skill.name
+                              ? skill.color
+                              : "#94a3b8",
+                        }}
                       />
                     </div>
-                    <span 
-                      className="text-[10px] font-medium text-gray-400 uppercase tracking-tighter transition-colors group-hover:text-white"
-                    >
+                    <span className="text-[10px] font-medium text-gray-400 uppercase tracking-tighter transition-colors group-hover:text-white">
                       {skill.name}
                     </span>
                   </div>

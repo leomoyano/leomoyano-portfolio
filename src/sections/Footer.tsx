@@ -1,23 +1,26 @@
-import { Heart, ArrowUp } from 'lucide-react';
-
-const navLinks = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Sobre Mí', href: '#about' },
-  { label: 'Experiencia', href: '#experience' },
-  { label: 'Tecnologías', href: '#skills' },
-  { label: 'Proyectos', href: '#projects' },
-  { label: 'Contacto', href: '#contact' },
-];
+import { Heart, ArrowUp } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { label: t("nav.home"), href: "#hero" },
+    { label: t("nav.about"), href: "#about" },
+    { label: t("nav.experience"), href: "#experience" },
+    { label: t("nav.skills"), href: "#skills" },
+    { label: t("nav.projects"), href: "#projects" },
+    { label: t("nav.contact"), href: "#contact" },
+  ];
+
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -34,14 +37,14 @@ export default function Footer() {
               href="#hero"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection('#hero');
+                scrollToSection("#hero");
               }}
               className="text-2xl font-bold text-white hover:text-gradient transition-colors inline-block mb-2"
             >
               &lt;Leonardo Moyano /&gt;
             </a>
             <p className="text-gray-500 text-sm">
-              © {new Date().getFullYear()} Frontend Developer
+              © {new Date().getFullYear()} {t("footer.role")}
             </p>
           </div>
 
@@ -65,13 +68,14 @@ export default function Footer() {
           {/* Back to top & Made with */}
           <div className="flex items-center gap-6">
             <p className="text-sm text-gray-500 flex items-center gap-1">
-              Hecho con <Heart className="w-4 h-4 text-red-500 fill-red-500" /> y
-              mucho café
+              {t("footer.madeWith")}{" "}
+              <Heart className="w-4 h-4 text-red-500 fill-red-500" />{" "}
+              {t("footer.and")} {t("footer.coffee")}
             </p>
             <button
               onClick={scrollToTop}
               className="w-10 h-10 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#3b82f6]/20 transition-all"
-              aria-label="Volver arriba"
+              aria-label={t("footer.backToTop")}
             >
               <ArrowUp className="w-5 h-5" />
             </button>
