@@ -1,0 +1,144 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "about": "Sobre Mí",
+    "experience": "Experiencia",
+    "skills": "Tecnologías",
+    "projects": "Proyectos",
+    "contact": "Contacto",
+    "contactBtn": "Contactar"
+  },
+  "hero": {
+    "status": "Abierto a nuevas oportunidades",
+    "subtitle": "Frontend Developer con 5+ años de experiencia construyendo aplicaciones web escalables con React, Next.js y TypeScript. Especializado en optimización de performance, design systems y herramientas de IA para desarrollo.",
+    "ctaProjects": "Ver Proyectos",
+    "ctaAbout": "Sobre Mí",
+    "expYears": "Años Exp.",
+    "companies": "Empresas"
+  },
+  "about": {
+    "badge": "Perfil",
+    "title": "Sobre",
+    "titleAccent": "Mí",
+    "subtitle": "Un vistazo a quién soy como profesional y qué me motiva en mi carrera.",
+    "bodyTitle": "Desarrollador apasionado por",
+    "bodyTitleAccent": "crear valor",
+    "p1": "Soy Frontend Developer con más de 5 años de experiencia construyendo aplicaciones web escalables con React, Next.js y TypeScript. He trabajado tanto en startups como en empresas establecidas, colaborando con equipos multiculturales en LATAM y Estados Unidos.",
+    "p2": "Mi foco está en la calidad del código, la performance y la mantenibilidad del frontend. Participé en la creación y evolución de design systems y UI libraries, ayudando a mejorar la consistencia visual y la velocidad de desarrollo entre equipos.",
+    "p3": "Utilizo herramientas de IA como apoyo para escribir mejor código, documentar de forma clara y optimizar procesos, siempre priorizando soluciones simples y sostenibles.",
+    "stats": {
+      "exp": "Años de Experiencia",
+      "companies": "Empresas",
+      "english": "Inglés intermedio-avanzado",
+      "agile": "Scrum & Kanban"
+    }
+  },
+  "experience": {
+    "badge": "Trayectoria",
+    "title": "Experiencia",
+    "titleAccent": "Profesional",
+    "subtitle": "Experiencia trabajando en productos reales, equipos ágiles y entornos de negocio.",
+    "present": "Presente",
+    "remote": "Remoto",
+    "jobs": {
+      "finalis": {
+        "role": "Frontend Developer",
+        "description": "Desarrollé y mantuve componentes UI reutilizables dentro de una plataforma fintech, contribuyendo a reducir tiempos de entrega y mejorar la consistencia visual del producto. Participé como co-creador de un Design System adoptado por múltiples equipos, enfocado en escalabilidad y mantenibilidad.",
+        "achievements": [
+          "Reduje el tiempo de entrega de features con componentes reutilizables",
+          "Co-creación y evolución de un Design System utilizado a nivel compañía",
+          "Identificación y resolución de vulnerabilidades de seguridad en dependencias del frontend",
+          "Trabajo colaborativo con equipos de producto y backend bajo metodologías ágiles (Scrum y Kanban)"
+        ]
+      },
+      "fuzzy": {
+        "role": "Frontend Developer",
+        "description": "Trabajé en múltiples proyectos SaaS y fintech bajo modalidad staff augmentation. Enfoque en entrega de features productivas, performance, accesibilidad y código mantenible.",
+        "achievements": [
+          "Desarrollo y entrega de features listas para producción",
+          "Colaboración con equipos distribuidos en LATAM y clientes de EE.UU.",
+          "Implementación de interfaces en React y TypeScript con foco en accesibilidad y buenas prácticas",
+          "Adaptación a múltiples codebases, requerimientos y contextos de negocio"
+        ]
+      },
+      "rolling": {
+        "role": "Frontend Developer",
+        "description": "Participé en proyectos web para clientes de Argentina y Colombia, trabajando con equipos distribuidos y bajo metodologías ágiles (Scrum) en distintos contextos de negocio.",
+        "achievements": [
+          "Colaboración en proyectos para clientes de Argentina y Colombia, incluyendo plataformas fintech como Giros y Finanzas (Colombia)",
+          "Trabajo en equipos distribuidos, participando en ceremonias ágiles y planificación de tareas",
+          "Implementación de interfaces frontend utilizando JavaScript y React",
+          "Participación en proyectos de distinta escala y dominio a nivel nacional"
+        ]
+      },
+      "panacea": {
+        "role": "Frontend Developer",
+        "description": "Participé en el desarrollo inicial de un software para clínicas, trabajando en un equipo pequeño y colaborativo. Mi foco estuvo en la implementación de interfaces UI, transformando diseños UI/UX en código utilizando Material Design.",
+        "achievements": [
+          "Implementación de interfaces de usuario a partir de diseños UI/UX",
+          "Desarrollo de vistas frontend para funcionalidades como turnos y gestión básica",
+          "Aplicación de principios de diseño responsive y componentes reutilizables",
+          "Colaboración en un equipo reducido durante las primeras etapas del producto"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "badge": "Portafolio",
+    "title": "Proyectos",
+    "titleAccent": "Relevantes",
+    "subtitle": "Proyectos en los que he trabajado, destacando mi contribución en desarrollo frontend, design systems y colaboración en equipos ágiles.",
+    "featured": "Destacado",
+    "code": "Código",
+    "demo": "Ver Demo",
+    "githubCTA": "Ver mi GitHub",
+    "inDevelopmentBadge": "En Desarrollo",
+    "comingSoon": "Próximamente",
+    "items": {
+      "sumar": {
+        "title": "Sumar",
+        "description": "App de finanzas personales para organizar gastos mes a mes y optimizar el ahorro."
+      },
+      "cinema": {
+        "title": "Cinema Hub",
+        "description": "Plataforma SaaS integral para la administración y gestión eficiente de complejos de cine."
+      },
+      "cvanalyzer": {
+        "title": "CV-Analyzer",
+        "description": "Herramienta de IA que analiza currículums frente a descripciones de puestos para evaluar compatibilidad y oportunidades."
+      }
+    }
+  },
+  "skills": {
+    "badge": "Competencias",
+    "title": "Stack",
+    "titleAccent": "Tecnológico",
+    "subtitle": "Herramientas y tecnologías que domino para construir productos digitales de alto impacto."
+  },
+  "contact": {
+    "badge": "Contacto",
+    "title": "Conectemos",
+    "subtitle": "¿Buscás sumar un frontend a tu equipo? Estoy abierto a conversar sobre oportunidades y proyectos.",
+    "infoTitle": "Información de Contacto",
+    "infoText": "Si sos recruiter, parte de un equipo técnico o estás evaluando sumar un frontend, no dudes en contactarme. Estoy abierto a conversar sobre oportunidades profesionales.",
+    "followMe": "Sígueme en",
+    "formTitle": "Enviame un mensaje",
+    "name": "Nombre",
+    "namePlaceholder": "Tu nombre",
+    "email": "Email",
+    "emailPlaceholder": "tu@email.com",
+    "message": "Mensaje",
+    "messagePlaceholder": "Cuéntame sobre la oportunidad profesional...",
+    "send": "Enviar Mensaje",
+    "sending": "Enviando...",
+    "success": "¡Mensaje enviado!",
+    "successText": "Gracias por contactarme. Te responderé pronto."
+  },
+  "footer": {
+    "role": "Frontend Developer",
+    "madeWith": "Hecho con",
+    "and": "y",
+    "coffee": "mucho café",
+    "backToTop": "Volver arriba"
+  }
+}
