@@ -1,33 +1,36 @@
-import { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-
-const navItems = [
-  { label: 'Inicio', href: '#hero' },
-  { label: 'Sobre Mí', href: '#about' },
-  { label: 'Experiencia', href: '#experience' },
-  { label: 'Tecnologías', href: '#skills' },
-  { label: 'Proyectos', href: '#projects' },
-  { label: 'Contacto', href: '#contact' },
-];
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 export default function Navigation() {
+  const { t } = useTranslation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const navItems = [
+    { label: t("nav.home"), href: "#hero" },
+    { label: t("nav.about"), href: "#about" },
+    { label: t("nav.experience"), href: "#experience" },
+    { label: t("nav.skills"), href: "#skills" },
+    { label: t("nav.projects"), href: "#projects" },
+    { label: t("nav.contact"), href: "#contact" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
   };
@@ -36,9 +39,7 @@ export default function Navigation() {
     <>
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? 'glass py-3'
-            : 'bg-transparent py-5'
+          isScrolled ? "glass py-3" : "bg-transparent py-5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -48,7 +49,7 @@ export default function Navigation() {
               href="#hero"
               onClick={(e) => {
                 e.preventDefault();
-                scrollToSection('#hero');
+                scrollToSection("#hero");
               }}
               className="text-xl font-bold text-white hover:text-[#3b82f6] transition-colors"
             >
@@ -73,23 +74,27 @@ export default function Navigation() {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <div className="hidden md:block">
+            {/* CTA Button & Language Toggle */}
+            <div className="hidden md:flex items-center gap-4">
+              <LanguageToggle />
               <Button
-                onClick={() => scrollToSection('#contact')}
+                onClick={() => scrollToSection("#contact")}
                 className="bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] hover:opacity-90 text-white font-medium px-6"
               >
-                Contactar
+                {t("nav.contactBtn")}
               </Button>
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden p-2 text-white"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Menu Button & Language Toggle */}
+            <div className="flex items-center gap-2 md:hidden">
+              <LanguageToggle />
+              <button
+                className="p-2 text-white"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
           </div>
         </div>
       </nav>
@@ -97,7 +102,7 @@ export default function Navigation() {
       {/* Mobile Menu */}
       <div
         className={`fixed inset-0 z-40 md:hidden transition-all duration-500 ${
-          isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+          isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       >
         <div className="absolute inset-0 bg-[#0a0f1c]/95 backdrop-blur-xl" />
@@ -119,10 +124,10 @@ export default function Navigation() {
             </a>
           ))}
           <Button
-            onClick={() => scrollToSection('#contact')}
+            onClick={() => scrollToSection("#contact")}
             className="mt-4 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] hover:opacity-90 text-white font-medium px-8 py-3"
           >
-            Contactar
+            {t("nav.contactBtn")}
           </Button>
         </div>
       </div>
