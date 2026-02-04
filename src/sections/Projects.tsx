@@ -1,51 +1,65 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Button } from '@/components/ui/button';
-import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "@/components/ui/button";
+import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const projects = [
-  {
-    id: 1,
-    title: 'Design System - Finalis',
-    description:
-      'Co-creé un Design System completo adoptado por múltiples equipos de desarrollo. Incluye componentes reutilizables, documentación interactiva y tokens de diseño para garantizar consistencia visual.',
-    image: '/project1.jpg',
-    technologies: ['React', 'TypeScript', 'Chakra UI', 'Storybook', 'GraphQL'],
-    liveUrl: '#',
-    githubUrl: '#',
-    featured: true,
-  },
-  {
-    id: 2,
-    title: 'Plataforma Fintech - The Fuzzy Fish',
-    description:
-      'Desarrollé interfaces para plataforma fintech SaaS utilizada por clientes en LATAM y EE.UU. Enfoque en performance, accesibilidad WCAG 2.1 y código mantenible.',
-    image: '/project2.jpg',
-    technologies: ['React', 'TypeScript', 'Styled Components', 'Redux Toolkit'],
-    liveUrl: '#',
-    githubUrl: '#',
-    featured: true,
-  },
-  {
-    id: 3,
-    title: 'Giros y Finanzas - RollingCode',
-    description:
-      'Sistema completo para empresa de transferencias de dinero en Colombia. Implementé flujos de usuario, dashboard administrativo y integración con pasarelas de pago.',
-    image: '/project3.jpg',
-    technologies: ['React', 'JavaScript', 'Bootstrap', 'Node.js'],
-    liveUrl: '#',
-    githubUrl: '#',
-    featured: false,
-  },
-];
-
 export default function Projects() {
+  const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const projectsRef = useRef<HTMLDivElement>(null);
+
+  const projects = [
+    {
+      id: 1,
+      title: t("projects.items.sumar.title"),
+      description: t("projects.items.sumar.description"),
+      image: "/project1.jpg",
+      technologies: [
+        "React",
+        "TypeScript",
+        "Tailwind CSS",
+        "Zustand",
+        "Chart.js",
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: true,
+      inDevelopment: true,
+    },
+    {
+      id: 2,
+      title: t("projects.items.cinema.title"),
+      description: t("projects.items.cinema.description"),
+      image: "/project2.jpg",
+      technologies: [
+        "Next.js",
+        "TypeScript",
+        "Prisma",
+        "PostgreSQL",
+        "Shadcn UI",
+      ],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: true,
+      inDevelopment: true,
+    },
+    {
+      id: 3,
+      title: t("projects.items.cvanalyzer.title"),
+      description: t("projects.items.cvanalyzer.description"),
+      image: "/project3.jpg",
+      technologies: ["Next.js", "OpenAI API", "Zod", "Framer Motion"],
+      liveUrl: "#",
+      githubUrl: "#",
+      featured: false,
+      inDevelopment: true,
+    },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -56,13 +70,13 @@ export default function Projects() {
         duration: 0.8,
         scrollTrigger: {
           trigger: headingRef.current,
-          start: 'top 80%',
-          toggleActions: 'play none none reverse',
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         },
       });
 
       // Project cards animation
-      const cards = projectsRef.current?.querySelectorAll('.project-card');
+      const cards = projectsRef.current?.querySelectorAll(".project-card");
       cards?.forEach((card, index) => {
         gsap.from(card, {
           opacity: 0,
@@ -72,8 +86,8 @@ export default function Projects() {
           delay: index * 0.2,
           scrollTrigger: {
             trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
+            start: "top 85%",
+            toggleActions: "play none none reverse",
           },
         });
       });
@@ -96,15 +110,15 @@ export default function Projects() {
         {/* Section heading */}
         <div ref={headingRef} className="text-center mb-16">
           <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            Portafolio
+            {t("projects.badge")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Proyectos <span className="text-gradient">Relevantes</span>
+            {t("projects.title")}{" "}
+            <span className="text-gradient">{t("projects.titleAccent")}</span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
           <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            Proyectos en los que he trabajado, destacando mi contribución
-            en desarrollo frontend, design systems y colaboración en equipos ágiles.
+            {t("projects.subtitle")}
           </p>
         </div>
 
@@ -114,7 +128,7 @@ export default function Projects() {
             <div
               key={project.id}
               className={`project-card group relative rounded-2xl overflow-hidden ${
-                index === 0 ? 'lg:col-span-2' : ''
+                index === 0 ? "lg:col-span-2" : ""
               }`}
             >
               {/* Glass container */}
@@ -122,7 +136,7 @@ export default function Projects() {
                 {/* Image container */}
                 <div
                   className={`relative overflow-hidden ${
-                    index === 0 ? 'h-64 lg:h-80' : 'h-56'
+                    index === 0 ? "h-64 lg:h-80" : "h-56"
                   }`}
                 >
                   <img
@@ -130,48 +144,63 @@ export default function Projects() {
                     alt={project.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  
+
                   {/* Overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1c] via-[#0a0f1c]/50 to-transparent opacity-80" />
-                  
-                  {/* Featured badge */}
-                  {project.featured && (
-                    <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white text-xs font-medium">
-                      Destacado
-                    </div>
-                  )}
+
+                  {/* Featured & In Development badges */}
+                  <div className="absolute top-4 left-4 flex flex-col gap-2">
+                    {project.featured && !project.inDevelopment && (
+                      <div className="px-3 py-1 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white text-xs font-medium">
+                        {t("projects.featured")}
+                      </div>
+                    )}
+                    {project.inDevelopment && (
+                      <div className="px-3 py-1 rounded-full bg-orange-500/90 text-white text-xs font-medium backdrop-blur-sm">
+                        {t("projects.inDevelopmentBadge")}
+                      </div>
+                    )}
+                  </div>
 
                   {/* Hover overlay with actions */}
                   <div className="absolute inset-0 bg-[#0a0f1c]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-white/30 text-white hover:bg-white/10"
-                      asChild
-                    >
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <Github className="w-4 h-4 mr-2" />
-                        Código
-                      </a>
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white"
-                      asChild
-                    >
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <ExternalLink className="w-4 h-4 mr-2" />
-                        Ver Demo
-                      </a>
-                    </Button>
+                    {project.inDevelopment ? (
+                      <span className="text-white font-medium px-4 py-2 glass rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        {t("projects.comingSoon")}
+                      </span>
+                    ) : (
+                      <>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="border-white/30 text-white hover:bg-white/10"
+                          asChild
+                        >
+                          <a
+                            href={project.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Github className="w-4 h-4 mr-2" />
+                            {t("projects.code")}
+                          </a>
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-white"
+                          asChild
+                        >
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <ExternalLink className="w-4 h-4 mr-2" />
+                            {t("projects.demo")}
+                          </a>
+                        </Button>
+                      </>
+                    )}
                   </div>
                 </div>
 
@@ -183,7 +212,7 @@ export default function Projects() {
                     </h3>
                     <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-[#3b82f6] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
                   </div>
-                  
+
                   <p className="text-gray-400 mb-4 line-clamp-2">
                     {project.description}
                   </p>
@@ -214,12 +243,12 @@ export default function Projects() {
             asChild
           >
             <a
-              href="https://github.com/leonardomoyano7"
+              href="https://github.com/leomoyano"
               target="_blank"
               rel="noopener noreferrer"
             >
               <Github className="w-5 h-5 mr-2" />
-              Ver mi GitHub
+              {t("projects.githubCTA")}
             </a>
           </Button>
         </div>
