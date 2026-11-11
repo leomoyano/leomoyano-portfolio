@@ -1,40 +1,49 @@
-import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Navigation from './sections/Navigation';
-import Hero from './sections/Hero';
-import About from './sections/About';
-import Experience from './sections/Experience';
-import Skills from './sections/Skills';
-import Projects from './sections/Projects';
-import Contact from './sections/Contact';
-import Footer from './sections/Footer';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { ScrollTrigger } from "@/lib/motion";
+import Navigation from "./sections/Navigation";
+import Hero from "./sections/Hero";
+import About from "./sections/About";
+import Experience from "./sections/Experience";
+import Skills from "./sections/Skills";
+import Projects from "./sections/Projects";
+import Contact from "./sections/Contact";
+import Footer from "./sections/Footer";
 
 function App() {
-  const mainRef = useRef<HTMLDivElement>(null);
+  const { i18n } = useTranslation();
+  const language = i18n.resolvedLanguage ?? "es";
 
   useEffect(() => {
-    // Initialize smooth scroll behavior
-    const ctx = gsap.context(() => {
-      // Refresh ScrollTrigger on load
-      ScrollTrigger.refresh();
-    }, mainRef);
+    // Keep the document language in sync for assistive tech and hyphenation.
+    document.documentElement.lang = language;
+    // Copy length differs per language, so trigger positions must be remeasured.
+    ScrollTrigger.refresh();
+  }, [language]);
 
-    return () => ctx.revert();
+  useEffect(() => {
+    // Late-loading fonts and images shift the layout after the first measure.
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener("load", refresh);
+    document.fonts?.ready.then(refresh).catch(() => {});
+    return () => window.removeEventListener("load", refresh);
   }, []);
 
   return (
-    <div ref={mainRef} className="relative min-h-screen bg-[#0a0f1c]">
+    <div className="relative min-h-screen bg-[#0a0f1c]">
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[1100] focus:rounded-lg focus:bg-[#111827] focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+      >
+        {language === "es" ? "Saltar al contenido" : "Skip to content"}
+      </a>
+
       {/* Noise overlay for texture */}
-      <div className="noise-overlay" />
-      
-      {/* Navigation */}
+      <div className="noise-overlay" aria-hidden="true" />
+
       <Navigation />
-      
-      {/* Main content */}
-      <main className="relative">
+
+      <main id="main" className="relative">
         <Hero />
         <About />
         <Experience />
@@ -42,8 +51,7 @@ function App() {
         <Projects />
         <Contact />
       </main>
-      
-      {/* Footer */}
+
       <Footer />
     </div>
   );
