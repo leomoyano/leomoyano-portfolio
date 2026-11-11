@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef, type CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
+import { SectionHeading } from "@/components/SectionHeading";
+import { useScrollReveal } from "@/lib/motion";
 import {
   Code2,
   Palette,
@@ -41,14 +41,11 @@ import {
 import { BiSolidZap } from "react-icons/bi";
 import { TbHexagonLetterCFilled } from "react-icons/tb";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Skills() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const categoriesRef = useRef<HTMLDivElement>(null);
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
+
+  useScrollReveal(sectionRef);
 
   const skillCategories = [
     {
@@ -70,15 +67,15 @@ export default function Skills() {
         { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
         { name: "Styled Comp.", icon: SiStyledcomponents, color: "#DB7093" },
         { name: "Material UI", icon: SiMui, color: "#0081CB" },
-        { name: "Shadcn UI", icon: SiShadcnui, color: "#F24E1E" },
-        { name: "Storybook", icon: SiStorybook, color: "#F24E1E" },
+        { name: "Shadcn UI", icon: SiShadcnui, color: "#ffffff" },
+        { name: "Storybook", icon: SiStorybook, color: "#FF4785" },
       ],
     },
     {
       name: "State & Data",
       icon: Database,
       skills: [
-        { name: "Zustand", icon: BiSolidZap, color: "#443e38" },
+        { name: "Zustand", icon: BiSolidZap, color: "#E0A458" },
         { name: "Redux", icon: SiRedux, color: "#764ABC" },
         { name: "GraphQL", icon: SiGraphql, color: "#E10098" },
         { name: "REST APIs", icon: RiGitForkFill, color: "#FF6C37" },
@@ -90,7 +87,7 @@ export default function Skills() {
       icon: TerminalIcon,
       skills: [
         { name: "Git / GitHub", icon: SiGithub, color: "#F05032" },
-        { name: "Cypress", icon: SiCypress, color: "#17202C" },
+        { name: "Cypress", icon: SiCypress, color: "#69D3A7" },
         { name: "RTL", icon: SiTestinglibrary, color: "#E33332" },
         { name: "Docker", icon: SiDocker, color: "#2496ED" },
         { name: "Vercel / CI", icon: SiVercel, color: "#ffffff" },
@@ -110,121 +107,70 @@ export default function Skills() {
     },
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading animation
-      gsap.from(headingRef.current, {
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Category cards animation
-      const cards = categoriesRef.current?.querySelectorAll(".skill-category");
-      cards?.forEach((card, index) => {
-        gsap.from(card, {
-          opacity: 0,
-          y: 60,
-          rotateX: 10,
-          duration: 0.8,
-          delay: index * 0.1,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
       ref={sectionRef}
       id="skills"
-      className="relative py-24 lg:py-32 overflow-hidden"
+      className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
     >
       {/* Background elements */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#06b6d4]/5 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#3b82f6]/5 rounded-full blur-[100px]" />
+      <div
+        aria-hidden="true"
+        className="orb orb-cyan -top-24 -left-24 w-[700px] h-[700px] [--orb-alpha:0.08]"
+      />
+      <div
+        aria-hidden="true"
+        className="orb orb-blue -bottom-20 -right-20 w-[560px] h-[560px] [--orb-alpha:0.08]"
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section heading */}
-        <div ref={headingRef} className="text-center mb-16">
-          <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            {t("skills.badge")}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            {t("skills.title")}{" "}
-            <span className="text-gradient">{t("skills.titleAccent")}</span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            {t("skills.subtitle")}
-          </p>
-        </div>
+        <SectionHeading
+          badge={t("skills.badge")}
+          title={t("skills.title")}
+          accent={t("skills.titleAccent")}
+          subtitle={t("skills.subtitle")}
+        />
 
         {/* Skills Grid */}
-        <div
-          ref={categoriesRef}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
-          style={{ perspective: "1000px" }}
-        >
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6">
           {skillCategories.map((category) => (
-            <div
-              key={category.name}
-              className="skill-category glass rounded-2xl p-6 hover:bg-[#111827]/80 transition-all duration-500 flex flex-col items-center text-center"
-            >
-              {/* Category header */}
-              <div className="flex flex-col items-center gap-3 mb-8 w-full">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3b82f6]/20 to-[#06b6d4]/20 flex items-center justify-center mb-2">
-                  <category.icon className="w-6 h-6 text-[#3b82f6]" />
-                </div>
-                <h3 className="text-lg font-bold text-white whitespace-nowrap">
-                  {category.name}
-                </h3>
-              </div>
-
-              {/* Skills Icons Grid */}
-              <div className="grid grid-cols-2 gap-4 w-full">
-                {category.skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    className="flex flex-col items-center gap-2 group cursor-default"
-                    onMouseEnter={() => setHoveredSkill(skill.name)}
-                    onMouseLeave={() => setHoveredSkill(null)}
-                  >
-                    <div
-                      className="w-12 h-12 rounded-lg bg-[#1e293b] flex items-center justify-center transition-all duration-300 group-hover:bg-[#334155] border border-transparent group-hover:border-[#3b82f6]/30 relative overflow-hidden"
-                      style={{
-                        boxShadow:
-                          hoveredSkill === skill.name
-                            ? `0 0 15px ${skill.color}30`
-                            : "none",
-                      }}
-                    >
-                      <skill.icon
-                        className="w-7 h-7 transition-all duration-300 grayscale group-hover:grayscale-0"
-                        style={{
-                          color:
-                            hoveredSkill === skill.name
-                              ? skill.color
-                              : "#94a3b8",
-                        }}
-                      />
-                    </div>
-                    <span className="text-[10px] font-medium text-gray-400 uppercase tracking-tighter transition-colors group-hover:text-white">
-                      {skill.name}
-                    </span>
+            <div key={category.name} data-reveal="scale" className="h-full">
+              <div className="h-full glass rounded-2xl p-6 hover:bg-[#111827]/90 hover:border-[#3b82f6]/30 transition-colors duration-300 flex flex-col items-center text-center">
+                {/* Category header */}
+                <div className="flex flex-col items-center gap-3 mb-6 w-full">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3b82f6]/20 to-[#06b6d4]/20 flex items-center justify-center mb-2">
+                    <category.icon
+                      className="w-6 h-6 text-[#3b82f6]"
+                      aria-hidden="true"
+                    />
                   </div>
-                ))}
+                  <h3 className="text-lg font-bold text-white whitespace-nowrap">
+                    {category.name}
+                  </h3>
+                </div>
+
+                {/* Skills Icons Grid */}
+                <ul className="grid grid-cols-2 gap-x-3 gap-y-4 w-full">
+                  {category.skills.map((skill) => (
+                    <li
+                      key={skill.name}
+                      className="flex flex-col items-center gap-2 group cursor-default"
+                      // Brand colour is exposed as a CSS variable so hover is
+                      // handled entirely in CSS, with no React re-renders.
+                      style={{ "--skill-color": skill.color } as CSSProperties}
+                    >
+                      <div className="w-12 h-12 rounded-lg bg-[#1e293b] flex items-center justify-center border border-transparent transition-[background-color,border-color,box-shadow,transform] duration-200 ease-out-quint group-hover:bg-[#334155] group-hover:border-[#3b82f6]/30 group-hover:-translate-y-0.5 group-hover:shadow-[0_0_18px_color-mix(in_srgb,var(--skill-color)_25%,transparent)]">
+                        <skill.icon
+                          aria-hidden="true"
+                          className="w-7 h-7 text-slate-400 transition-colors duration-200 group-hover:text-[color:var(--skill-color)]"
+                        />
+                      </div>
+                      <span className="text-[11px] leading-tight font-medium text-gray-400 uppercase transition-colors duration-200 group-hover:text-white">
+                        {skill.name}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}
