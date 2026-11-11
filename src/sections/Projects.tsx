@@ -1,17 +1,15 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
-gsap.registerPlugin(ScrollTrigger);
+import { SectionHeading } from "@/components/SectionHeading";
+import { useScrollReveal } from "@/lib/motion";
 
 export default function Projects() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const projectsRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(sectionRef);
 
   const projects = [
     {
@@ -61,78 +59,42 @@ export default function Projects() {
     },
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading animation
-      gsap.from(headingRef.current, {
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Project cards animation
-      const cards = projectsRef.current?.querySelectorAll(".project-card");
-      cards?.forEach((card, index) => {
-        gsap.from(card, {
-          opacity: 0,
-          y: 80,
-          scale: 0.95,
-          duration: 0.8,
-          delay: index * 0.2,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
       ref={sectionRef}
       id="projects"
-      className="relative py-24 lg:py-32 overflow-hidden"
+      className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
     >
       {/* Background elements */}
-      <div className="absolute top-1/3 right-0 w-[500px] h-[500px] bg-[#3b82f6]/5 rounded-full blur-[120px]" />
-      <div className="absolute bottom-1/3 left-0 w-[400px] h-[400px] bg-[#06b6d4]/5 rounded-full blur-[100px]" />
+      <div
+        aria-hidden="true"
+        className="orb orb-blue top-1/3 -right-24 w-[700px] h-[700px] [--orb-alpha:0.08]"
+      />
+      <div
+        aria-hidden="true"
+        className="orb orb-cyan bottom-1/3 -left-20 w-[560px] h-[560px] [--orb-alpha:0.08]"
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section heading */}
-        <div ref={headingRef} className="text-center mb-16">
-          <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            {t("projects.badge")}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            {t("projects.title")}{" "}
-            <span className="text-gradient">{t("projects.titleAccent")}</span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            {t("projects.subtitle")}
-          </p>
-        </div>
+        <SectionHeading
+          badge={t("projects.badge")}
+          title={t("projects.title")}
+          accent={t("projects.titleAccent")}
+          subtitle={t("projects.subtitle")}
+        />
 
         {/* Projects Grid */}
-        <div ref={projectsRef} className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
           {projects.map((project, index) => (
-            <div
+            <article
               key={project.id}
-              className={`project-card group relative rounded-2xl overflow-hidden ${
+              data-reveal
+              className={`group relative rounded-2xl overflow-hidden ${
                 index === 0 ? "lg:col-span-2" : ""
               }`}
             >
               {/* Glass container */}
-              <div className="glass rounded-2xl overflow-hidden hover:bg-[#111827]/90 transition-all duration-500">
+              <div className="h-full glass rounded-2xl overflow-hidden hover:bg-[#111827]/90 hover:border-[#3b82f6]/30 transition-colors duration-300">
                 {/* Image container */}
                 <div
                   className={`relative overflow-hidden ${
@@ -141,8 +103,12 @@ export default function Projects() {
                 >
                   <img
                     src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    alt=""
+                    width={1248}
+                    height={832}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-105"
                   />
 
                   {/* Overlay gradient */}
@@ -163,9 +129,9 @@ export default function Projects() {
                   </div>
 
                   {/* Hover overlay with actions */}
-                  <div className="absolute inset-0 bg-[#0a0f1c]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center gap-4">
+                  <div className="absolute inset-0 bg-[#0a0f1c]/80 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 ease-out flex items-center justify-center gap-4">
                     {project.inDevelopment ? (
-                      <span className="text-white font-medium px-4 py-2 glass rounded-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                      <span className="text-white font-medium px-4 py-2 glass glass-blur rounded-lg translate-y-2 group-hover:translate-y-0 transition-transform duration-300 ease-out-quint">
                         {t("projects.comingSoon")}
                       </span>
                     ) : (
@@ -181,7 +147,7 @@ export default function Projects() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            <Github className="w-4 h-4 mr-2" />
+                            <Github className="w-4 h-4 mr-2" aria-hidden="true" />
                             {t("projects.code")}
                           </a>
                         </Button>
@@ -195,7 +161,7 @@ export default function Projects() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            <ExternalLink className="w-4 h-4 mr-2" />
+                            <ExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
                             {t("projects.demo")}
                           </a>
                         </Button>
@@ -206,14 +172,17 @@ export default function Projects() {
 
                 {/* Content */}
                 <div className="p-6">
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start justify-between gap-4 mb-3">
                     <h3 className="text-xl lg:text-2xl font-bold text-white group-hover:text-gradient transition-colors">
                       {project.title}
                     </h3>
-                    <ArrowUpRight className="w-5 h-5 text-gray-400 group-hover:text-[#3b82f6] group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="w-5 h-5 flex-shrink-0 mt-1 text-gray-400 group-hover:text-[#3b82f6] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[color,transform] duration-300 ease-out-quint"
+                    />
                   </div>
 
-                  <p className="text-gray-400 mb-4 line-clamp-2">
+                  <p className="text-gray-400 leading-relaxed mb-4 line-clamp-2">
                     {project.description}
                   </p>
 
@@ -222,7 +191,7 @@ export default function Projects() {
                     {project.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3 py-1 rounded-lg bg-[#1e293b] text-xs text-gray-300 hover:bg-[#3b82f6]/20 hover:text-white transition-colors"
+                        className="px-3 py-1 rounded-lg bg-[#1e293b] text-xs text-gray-300 hover:bg-[#3b82f6]/20 hover:text-white transition-colors duration-200"
                       >
                         {tech}
                       </span>
@@ -230,16 +199,16 @@ export default function Projects() {
                   </div>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         {/* View all projects CTA */}
-        <div className="text-center mt-12">
+        <div data-reveal className="text-center mt-12">
           <Button
             variant="outline"
             size="lg"
-            className="border-gray-600 text-white hover:bg-white/10 px-8"
+            className="h-12 border-gray-600 bg-transparent text-white hover:bg-white/10 hover:text-white hover:border-gray-400 px-8"
             asChild
           >
             <a
@@ -247,7 +216,7 @@ export default function Projects() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <Github className="w-5 h-5 mr-2" />
+              <Github className="w-5 h-5 mr-2" aria-hidden="true" />
               {t("projects.githubCTA")}
             </a>
           </Button>
