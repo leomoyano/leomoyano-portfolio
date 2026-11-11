@@ -52,7 +52,7 @@ export default function Contact() {
     },
     {
       icon: MapPin,
-      label: t("contact.badge"),
+      label: t("contact.location"),
       value: "Tucumán, Argentina",
     },
   ];

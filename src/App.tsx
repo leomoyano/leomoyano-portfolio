@@ -11,15 +11,20 @@ import Contact from "./sections/Contact";
 import Footer from "./sections/Footer";
 
 function App() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const language = i18n.resolvedLanguage ?? "es";
 
   useEffect(() => {
     // Keep the document language in sync for assistive tech and hyphenation.
     document.documentElement.lang = language;
+    // index.html ships the Spanish defaults; mirror the active locale here.
+    document.title = t("meta.title");
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", t("meta.description"));
     // Copy length differs per language, so trigger positions must be remeasured.
     ScrollTrigger.refresh();
-  }, [language]);
+  }, [language, t]);
 
   useEffect(() => {
     // Late-loading fonts and images shift the layout after the first measure.

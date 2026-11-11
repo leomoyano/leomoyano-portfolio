@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "title": "Leonardo Moyano | AI-First Software Engineer · React y TypeScript",
+    "description": "Leonardo Moyano, AI-First Software Engineer. Frontend y fullstack con React y TypeScript, design systems y flujos agénticos con Claude Code, Cursor y OpenCode."
+  },
   "nav": {
     "home": "Inicio",
     "about": "Sobre Mí",
@@ -10,7 +14,7 @@
   },
   "hero": {
     "status": "Abierto a nuevas oportunidades",
-    "subtitle": "AI-First Software Engineer con 5+ años de experiencia construyendo aplicaciones web escalables con React y TypeScript. Enfocado en design systems y flujos agénticos.",
+    "subtitle": "AI-First Software Engineer. Desarrollo frontend y fullstack con React y TypeScript, construyo design systems y diseño flujos agénticos con Claude Code, Cursor y OpenCode para entregar más rápido sin resignar calidad.",
     "ctaProjects": "Ver Proyectos",
     "ctaAbout": "Sobre Mí",
     "expYears": "Años Exp.",
@@ -20,12 +24,12 @@
     "badge": "Perfil",
     "title": "Sobre",
     "titleAccent": "Mí",
-    "subtitle": "Un vistazo a quién soy como profesional y qué me motiva en mi carrera.",
-    "bodyTitle": "Desarrollador apasionado por",
-    "bodyTitleAccent": "crear valor",
-    "p1": "Soy Frontend Developer con más de 5 años de experiencia construyendo aplicaciones web escalables con React, Next.js y TypeScript. He trabajado tanto en startups como en empresas establecidas, colaborando con equipos multiculturales en LATAM y Estados Unidos.",
-    "p2": "Mi foco está en la calidad del código, la performance y la mantenibilidad del frontend. Participé en la creación y evolución de design systems y UI libraries, ayudando a mejorar la consistencia visual y la velocidad de desarrollo entre equipos.",
-    "p3": "Utilizo herramientas de IA como apoyo para escribir mejor código, documentar de forma clara y optimizar procesos, siempre priorizando soluciones simples y sostenibles.",
+    "subtitle": "Cómo trabajo, en qué me especializo y qué priorizo al construir software.",
+    "bodyTitle": "Ingeniero de software con enfoque",
+    "bodyTitleAccent": "AI-first",
+    "p1": "Soy Software Engineer con más de 5 años de experiencia en frontend y fullstack, construyendo aplicaciones web con React, Next.js y TypeScript. Trabajé en startups y en empresas establecidas, con equipos distribuidos en LATAM y Estados Unidos, y participé en la creación y evolución de design systems adoptados por varios equipos.",
+    "p2": "Trabajo AI-first: uso agentes como Claude Code, Cursor y OpenCode en el día a día y dedico tiempo al context engineering, es decir, a darles el contexto, las reglas y las herramientas correctas para que el resultado sea confiable. También construyo flujos agénticos (skills y comandos) que aceleran revisiones de PR, releases y changelogs.",
+    "p3": "La velocidad no reemplaza al criterio: reviso lo que generan los agentes, cubro el código con tests y cuido la seguridad de las dependencias, priorizando soluciones simples y fáciles de mantener.",
     "stats": {
       "exp": "Años de Experiencia",
       "companies": "Empresas",
@@ -147,7 +151,8 @@
     "sending": "Enviando...",
     "success": "¡Mensaje enviado!",
     "successText": "Gracias por contactarme. Te responderé pronto.",
-    "error": "Hubo un error al enviar el mensaje. Por favor intenta de nuevo."
+    "error": "Hubo un error al enviar el mensaje. Por favor intenta de nuevo.",
+    "location": "Ubicación"
   },
   "footer": {
     "role": "AI-First Software Engineer",
