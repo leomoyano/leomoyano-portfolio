@@ -132,7 +132,8 @@
     "send": "Enviar Mensaje",
     "sending": "Enviando...",
     "success": "¡Mensaje enviado!",
-    "successText": "Gracias por contactarme. Te responderé pronto."
+    "successText": "Gracias por contactarme. Te responderé pronto.",
+    "error": "Hubo un error al enviar el mensaje. Por favor intenta de nuevo."
   },
   "footer": {
     "role": "Frontend Developer",

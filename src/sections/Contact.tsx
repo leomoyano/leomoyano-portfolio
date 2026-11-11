@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslation } from "react-i18next";
+import { SectionHeading } from "@/components/SectionHeading";
+import { useScrollReveal } from "@/lib/motion";
 import {
   Mail,
   MapPin,
@@ -12,41 +12,50 @@ import {
   Linkedin,
   Github,
   CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 
-gsap.registerPlugin(ScrollTrigger);
+const FORMSPREE_ID = "xojnaqvv";
+const SUCCESS_RESET_MS = 5000;
+
+const fieldClassName =
+  "h-11 bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 hover:border-[#475569] focus-visible:border-[#3b82f6] focus-visible:ring-[#3b82f6]/25 transition-[border-color,box-shadow] duration-200";
 
 export default function Contact() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
+  const resetTimer = useRef<number | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const contactInfo = [
+  useScrollReveal(sectionRef);
+
+  useEffect(() => () => window.clearTimeout(resetTimer.current), []);
+
+  const contactInfo: {
+    icon: typeof Mail;
+    label: string;
+    value: string;
+    href?: string;
+  }[] = [
     {
       icon: Mail,
-      label: "Email",
+      label: t("contact.email"),
       value: "leomoyano7@gmail.com",
       href: "mailto:leomoyano7@gmail.com",
     },
     {
       icon: MapPin,
-      label: t("contact.email"),
+      label: t("contact.badge"),
       value: "Tucumán, Argentina",
-      href: "#",
     },
   ];
-
-  // Precise update of labels for contactInfo
-  contactInfo[0].label = t("contact.email");
-  contactInfo[1].label = t("contact.badge");
 
   const socialLinks = [
     { icon: Github, href: "https://github.com/leomoyano", label: "GitHub" },
@@ -57,43 +66,12 @@ export default function Contact() {
     },
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading animation
-      gsap.from(headingRef.current, {
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Content animation
-      gsap.from(contentRef.current?.children || [], {
-        opacity: 0,
-        y: 40,
-        stagger: 0.15,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: contentRef.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setHasError(false);
 
     try {
-      const FORMSPREE_ID = "xojnaqvv";
       const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
         method: "POST",
         headers: {
@@ -103,21 +81,21 @@ export default function Contact() {
         body: JSON.stringify(formData),
       });
 
-      if (response.ok) {
-        setIsSubmitted(true);
-        setFormData({ name: "", email: "", message: "" });
-        // Reset success message after 5 seconds
-        setTimeout(() => setIsSubmitted(false), 5000);
-      } else {
-        const data = await response.json();
-        throw new Error(data.error || "Error al enviar el mensaje");
+      if (!response.ok) {
+        throw new Error(`Formspree responded with ${response.status}`);
       }
+
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+      // Bring the form back after a short while.
+      window.clearTimeout(resetTimer.current);
+      resetTimer.current = window.setTimeout(
+        () => setIsSubmitted(false),
+        SUCCESS_RESET_MS,
+      );
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert(
-        t("contact.error") ||
-          "Hubo un error al enviar el mensaje. Por favor intenta de nuevo.",
-      );
+      setHasError(true);
     } finally {
       setIsSubmitting(false);
     }
@@ -136,56 +114,74 @@ export default function Contact() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative py-24 lg:py-32 overflow-hidden"
+      className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
     >
       {/* Background elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#3b82f6]/5 rounded-full blur-[150px]" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#06b6d4]/5 rounded-full blur-[100px]" />
+      <div
+        aria-hidden="true"
+        className="orb orb-blue -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[1100px] [--orb-alpha:0.07]"
+      />
+      <div
+        aria-hidden="true"
+        className="orb orb-cyan -bottom-20 -right-20 w-[560px] h-[560px] [--orb-alpha:0.08]"
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section heading */}
-        <div ref={headingRef} className="text-center mb-16">
-          <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            {t("contact.badge")}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            {t("contact.title")}
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            {t("contact.subtitle")}
-          </p>
-        </div>
+        <SectionHeading
+          badge={t("contact.badge")}
+          title={t("contact.title")}
+          subtitle={t("contact.subtitle")}
+        />
 
-        <div ref={contentRef} className="grid lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
           {/* Contact Info */}
-          <div className="space-y-8">
+          <div data-reveal className="space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">
+              <h3 className="text-2xl font-bold tracking-tight text-white mb-4">
                 {t("contact.infoTitle")}
               </h3>
-              <p className="text-gray-400 mb-8">{t("contact.infoText")}</p>
+              <p className="text-gray-400 leading-relaxed text-pretty">
+                {t("contact.infoText")}
+              </p>
             </div>
 
             {/* Contact cards */}
             <div className="space-y-4">
-              {contactInfo.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center gap-4 p-4 rounded-xl glass hover:bg-[#111827]/80 transition-colors group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#3b82f6]/20 to-[#06b6d4]/20 flex items-center justify-center group-hover:from-[#3b82f6]/30 group-hover:to-[#06b6d4]/30 transition-colors">
-                    <item.icon className="w-5 h-5 text-[#3b82f6]" />
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400">{item.label}</div>
-                    <div className="text-white font-medium group-hover:text-gradient transition-colors">
-                      {item.value}
+              {contactInfo.map((item) => {
+                const content = (
+                  <>
+                    <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-gradient-to-br from-[#3b82f6]/20 to-[#06b6d4]/20 flex items-center justify-center">
+                      <item.icon
+                        className="w-5 h-5 text-[#3b82f6]"
+                        aria-hidden="true"
+                      />
                     </div>
+                    <div className="min-w-0">
+                      <div className="text-sm text-gray-400">{item.label}</div>
+                      <div className="text-white font-medium truncate">
+                        {item.value}
+                      </div>
+                    </div>
+                  </>
+                );
+
+                return item.href ? (
+                  <a
+                    key={item.value}
+                    href={item.href}
+                    className="flex items-center gap-4 p-4 rounded-xl glass hover:bg-[#111827]/90 hover:border-[#3b82f6]/30 active:scale-[0.99] transition-[background-color,border-color,transform] duration-200 ease-out-quint"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div
+                    key={item.value}
+                    className="flex items-center gap-4 p-4 rounded-xl glass"
+                  >
+                    {content}
                   </div>
-                </a>
-              ))}
+                );
+              })}
             </div>
 
             {/* Social links */}
@@ -200,10 +196,10 @@ export default function Contact() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-12 h-12 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#3b82f6]/20 transition-all"
+                    className="w-12 h-12 rounded-xl glass flex items-center justify-center text-gray-400 hover:text-white hover:bg-[#3b82f6]/20 hover:-translate-y-0.5 active:scale-95 transition-[color,background-color,transform] duration-200 ease-out-quint"
                     aria-label={social.label}
                   >
-                    <social.icon className="w-5 h-5" />
+                    <social.icon className="w-5 h-5" aria-hidden="true" />
                   </a>
                 ))}
               </div>
@@ -211,15 +207,21 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="glass rounded-2xl p-6 lg:p-8">
+          <div data-reveal className="glass rounded-2xl p-6 lg:p-8">
             <h3 className="text-xl font-bold text-white mb-6">
               {t("contact.formTitle")}
             </h3>
 
             {isSubmitted ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
+              <div
+                role="status"
+                className="flex flex-col items-center justify-center py-12 text-center animate-in fade-in-0 zoom-in-95 duration-300 ease-out-quint"
+              >
                 <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mb-4">
-                  <CheckCircle className="w-8 h-8 text-green-500" />
+                  <CheckCircle
+                    className="w-8 h-8 text-green-500"
+                    aria-hidden="true"
+                  />
                 </div>
                 <h4 className="text-xl font-bold text-white mb-2">
                   {t("contact.success")}
@@ -227,7 +229,10 @@ export default function Contact() {
                 <p className="text-gray-400">{t("contact.successText")}</p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form
+                onSubmit={handleSubmit}
+                className="space-y-6 animate-in fade-in-0 duration-300"
+              >
                 <div>
                   <label
                     htmlFor="name"
@@ -239,11 +244,12 @@ export default function Contact() {
                     id="name"
                     name="name"
                     type="text"
+                    autoComplete="name"
                     required
                     value={formData.name}
                     onChange={handleChange}
                     placeholder={t("contact.namePlaceholder")}
-                    className="bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 focus:border-[#3b82f6] focus:ring-[#3b82f6]/20"
+                    className={fieldClassName}
                   />
                 </div>
 
@@ -258,11 +264,12 @@ export default function Contact() {
                     id="email"
                     name="email"
                     type="email"
+                    autoComplete="email"
                     required
                     value={formData.email}
                     onChange={handleChange}
                     placeholder={t("contact.emailPlaceholder")}
-                    className="bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 focus:border-[#3b82f6] focus:ring-[#3b82f6]/20"
+                    className={fieldClassName}
                   />
                 </div>
 
@@ -281,18 +288,36 @@ export default function Contact() {
                     onChange={handleChange}
                     placeholder={t("contact.messagePlaceholder")}
                     rows={5}
-                    className="bg-[#1e293b] border-[#334155] text-white placeholder:text-gray-500 focus:border-[#3b82f6] focus:ring-[#3b82f6]/20 resize-none"
+                    className={`${fieldClassName} h-auto min-h-32 resize-none`}
                   />
                 </div>
+
+                {hasError && (
+                  <p
+                    role="alert"
+                    className="flex items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-300 animate-in fade-in-0 slide-in-from-top-1 duration-200"
+                  >
+                    <AlertCircle
+                      className="w-4 h-4 mt-0.5 flex-shrink-0"
+                      aria-hidden="true"
+                    />
+                    {t("contact.error")}
+                  </p>
+                )}
 
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] hover:opacity-90 text-white font-semibold py-6"
+                  aria-busy={isSubmitting}
+                  className="group w-full h-12 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] hover:opacity-90 hover:shadow-[0_8px_30px_rgba(59,130,246,0.35)] disabled:opacity-70 text-white font-semibold"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <svg
+                        className="animate-spin h-5 w-5"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
                         <circle
                           className="opacity-25"
                           cx="12"
@@ -312,7 +337,10 @@ export default function Contact() {
                     </span>
                   ) : (
                     <span className="flex items-center gap-2">
-                      <Send className="w-5 h-5" />
+                      <Send
+                        className="w-5 h-5 transition-transform duration-200 ease-out-quint group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                        aria-hidden="true"
+                      />
                       {t("contact.send")}
                     </span>
                   )}

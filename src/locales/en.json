@@ -132,7 +132,8 @@
     "send": "Send Message",
     "sending": "Sending...",
     "success": "Message sent!",
-    "successText": "Thanks for contacting me. I'll get back to you soon."
+    "successText": "Thanks for contacting me. I'll get back to you soon.",
+    "error": "Something went wrong while sending your message. Please try again."
   },
   "footer": {
     "role": "Frontend Developer",
