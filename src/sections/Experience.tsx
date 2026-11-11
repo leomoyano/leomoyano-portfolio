@@ -15,10 +15,31 @@ export default function Experience() {
   const experiences = [
     {
       id: 1,
+      role: t("experience.jobs.jbk.role"),
+      company: "JBK",
+      location: `San Miguel de Tucumán, Argentina (${t("experience.remote")})`,
+      period: `${t("experience.months.apr")} 2026 - ${t("experience.present")}`,
+      description: t("experience.jobs.jbk.description"),
+      achievements: t("experience.jobs.jbk.achievements", {
+        returnObjects: true,
+      }) as string[],
+      technologies: [
+        "TypeScript",
+        "React",
+        "React Router",
+        "Node.js",
+        "Tailwind CSS",
+        "Microsoft Azure",
+        "Anthropic Claude",
+        "Agentic Workflows",
+      ],
+    },
+    {
+      id: 2,
       role: t("experience.jobs.finalis.role"),
       company: "Finalis",
-      location: `San Francisco, California, USA (${t("experience.remote")})`,
-      period: `Nov 2022 - ${t("experience.present")}`,
+      location: `San Francisco, CA, USA (${t("experience.remote")})`,
+      period: "Nov 2022 - Mar 2026",
       description: t("experience.jobs.finalis.description"),
       achievements: t("experience.jobs.finalis.achievements", {
         returnObjects: true,
@@ -33,11 +54,11 @@ export default function Experience() {
       ],
     },
     {
-      id: 2,
+      id: 3,
       role: t("experience.jobs.fuzzy.role"),
       company: "The Fuzzy Fish - Digital Works",
-      location: "Córdoba, Argentina",
-      period: "Dic 2020 - Nov 2022",
+      location: `Córdoba, Argentina (${t("experience.remote")})`,
+      period: `${t("experience.months.dec")} 2020 - Nov 2022`,
       description: t("experience.jobs.fuzzy.description"),
       achievements: t("experience.jobs.fuzzy.achievements", {
         returnObjects: true,
@@ -50,11 +71,11 @@ export default function Experience() {
       ],
     },
     {
-      id: 3,
+      id: 4,
       role: t("experience.jobs.rolling.role"),
       company: "RollingCode School",
       location: "Tucumán, Argentina",
-      period: "Ene 2020 - Feb 2021",
+      period: `${t("experience.months.jan")} 2020 - Feb 2021`,
       description: t("experience.jobs.rolling.description"),
       achievements: t("experience.jobs.rolling.achievements", {
         returnObjects: true,
@@ -62,11 +83,11 @@ export default function Experience() {
       technologies: ["JavaScript", "React", "HTML/CSS", "Bootstrap"],
     },
     {
-      id: 4,
+      id: 5,
       role: t("experience.jobs.panacea.role"),
       company: "Panacea Soft",
       location: "Tucumán, Argentina",
-      period: "Sep 2019 - Ene 2020",
+      period: `Sep 2019 - ${t("experience.months.jan")} 2020`,
       description: t("experience.jobs.panacea.description"),
       achievements: t("experience.jobs.panacea.achievements", {
         returnObjects: true,

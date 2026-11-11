@@ -10,7 +10,7 @@
   },
   "hero": {
     "status": "Open to new opportunities",
-    "subtitle": "Frontend Developer with 5+ years of experience building scalable web applications with React, Next.js, and TypeScript. Specialized in performance optimization, design systems, and AI tools for development.",
+    "subtitle": "AI-First Software Engineer with 5+ years of experience building scalable web applications with React and TypeScript. Focused on design systems and agentic workflows.",
     "ctaProjects": "View Projects",
     "ctaAbout": "About Me",
     "expYears": "Years Exp.",
@@ -34,16 +34,30 @@
     }
   },
   "experience": {
-    "badge": "Trayectory",
+    "badge": "Trajectory",
     "title": "Professional",
     "titleAccent": "Experience",
     "subtitle": "Experience working on real products, agile teams, and business environments.",
     "present": "Present",
     "remote": "Remote",
+    "months": {
+      "jan": "Jan",
+      "apr": "Apr",
+      "dec": "Dec"
+    },
     "jobs": {
+      "jbk": {
+        "role": "Software Engineer",
+        "description": "Built the frontend for several features from scratch: dashboards, real-data integrations and responsive UI, many of them handling large volumes of data.",
+        "achievements": [
+          "Cut critical dependency vulnerabilities to 0 and high-severity ones by 76% (−56% overall)",
+          "~86% test coverage on the code I wrote; author of ~40% of the project's test files",
+          "Built agentic workflows (skills and commands for agents) that speed up PR reviews, releases and changelogs"
+        ]
+      },
       "finalis": {
-        "role": "Frontend Developer",
-        "description": "Developed and maintained reusable UI components within a fintech platform, contributing to reduced delivery times and improved visual consistency of the product. Paricipated as a co-creator of a Design System adopted by multiple teams, focused on scalability and maintainability.",
+        "role": "Frontend Engineer",
+        "description": "Developed and maintained reusable UI components within a fintech platform, contributing to reduced delivery times and improved visual consistency of the product. Participated as a co-creator of a Design System adopted by multiple teams, focused on scalability and maintainability.",
         "achievements": [
           "Reduced feature delivery time with reusable components",
           "Co-creation and evolution of a company-wide Design System",
@@ -52,7 +66,7 @@
         ]
       },
       "fuzzy": {
-        "role": "Frontend Developer",
+        "role": "Frontend Engineer",
         "description": "Worked on multiple SaaS and fintech projects under staff augmentation modality. Focused on production-ready feature delivery, performance, accessibility, and maintainable code.",
         "achievements": [
           "Development and delivery of production-ready features",
@@ -136,7 +150,7 @@
     "error": "Something went wrong while sending your message. Please try again."
   },
   "footer": {
-    "role": "Frontend Developer",
+    "role": "AI-First Software Engineer",
     "madeWith": "Made with",
     "and": "and",
     "coffee": "lots of coffee",

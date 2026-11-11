@@ -10,7 +10,7 @@
   },
   "hero": {
     "status": "Abierto a nuevas oportunidades",
-    "subtitle": "Frontend Developer con 5+ años de experiencia construyendo aplicaciones web escalables con React, Next.js y TypeScript. Especializado en optimización de performance, design systems y herramientas de IA para desarrollo.",
+    "subtitle": "AI-First Software Engineer con 5+ años de experiencia construyendo aplicaciones web escalables con React y TypeScript. Enfocado en design systems y flujos agénticos.",
     "ctaProjects": "Ver Proyectos",
     "ctaAbout": "Sobre Mí",
     "expYears": "Años Exp.",
@@ -40,9 +40,23 @@
     "subtitle": "Experiencia trabajando en productos reales, equipos ágiles y entornos de negocio.",
     "present": "Presente",
     "remote": "Remoto",
+    "months": {
+      "jan": "Ene",
+      "apr": "Abr",
+      "dec": "Dic"
+    },
     "jobs": {
+      "jbk": {
+        "role": "Software Engineer",
+        "description": "Desarrollé el frontend de varias features desde cero: dashboards, integraciones con datos reales y UI responsive, varias con mucho volumen de datos.",
+        "achievements": [
+          "Reduje las vulnerabilidades críticas de dependencias a 0 y las altas en un 76% (−56% en total)",
+          "~86% de cobertura de tests en el código que escribí; autor de ~40% de los archivos de test del proyecto",
+          "Creé flujos agénticos (skills y comandos para agentes) que aceleran revisiones de PR, releases y changelogs"
+        ]
+      },
       "finalis": {
-        "role": "Frontend Developer",
+        "role": "Frontend Engineer",
         "description": "Desarrollé y mantuve componentes UI reutilizables dentro de una plataforma fintech, contribuyendo a reducir tiempos de entrega y mejorar la consistencia visual del producto. Participé como co-creador de un Design System adoptado por múltiples equipos, enfocado en escalabilidad y mantenibilidad.",
         "achievements": [
           "Reduje el tiempo de entrega de features con componentes reutilizables",
@@ -52,7 +66,7 @@
         ]
       },
       "fuzzy": {
-        "role": "Frontend Developer",
+        "role": "Frontend Engineer",
         "description": "Trabajé en múltiples proyectos SaaS y fintech bajo modalidad staff augmentation. Enfoque en entrega de features productivas, performance, accesibilidad y código mantenible.",
         "achievements": [
           "Desarrollo y entrega de features listas para producción",
@@ -136,7 +150,7 @@
     "error": "Hubo un error al enviar el mensaje. Por favor intenta de nuevo."
   },
   "footer": {
-    "role": "Frontend Developer",
+    "role": "AI-First Software Engineer",
     "madeWith": "Hecho con",
     "and": "y",
     "coffee": "mucho café",

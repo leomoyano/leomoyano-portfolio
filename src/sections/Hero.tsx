@@ -270,7 +270,7 @@ export default function Hero() {
                     className="glass glass-blur rounded-xl px-4 py-3 animate-float"
                     style={{ animationDelay: "-3s" }}
                   >
-                    <div className="text-2xl font-bold text-gradient">4</div>
+                    <div className="text-2xl font-bold text-gradient">5</div>
                     <div className="text-xs text-gray-400">
                       {t("hero.companies")}
                     </div>
