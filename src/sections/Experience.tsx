@@ -1,17 +1,16 @@
-import { useEffect, useRef } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useRef } from "react";
 import { Briefcase, Calendar, MapPin, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
-gsap.registerPlugin(ScrollTrigger);
+import { SectionHeading } from "@/components/SectionHeading";
+import { MOTION_OK, gsap, useGSAP, useScrollReveal } from "@/lib/motion";
 
 export default function Experience() {
   const { t } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
+
+  useScrollReveal(sectionRef);
 
   const experiences = [
     {
@@ -76,109 +75,79 @@ export default function Experience() {
     },
   ];
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Heading animation
-      gsap.from(headingRef.current, {
-        opacity: 0,
-        y: 50,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: headingRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
 
-      // Timeline line draw animation
-      gsap.from(lineRef.current, {
-        scaleY: 0,
-        transformOrigin: "top",
-        duration: 1.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      // Experience cards animation
-      const cards = timelineRef.current?.querySelectorAll(".experience-card");
-      cards?.forEach((card, index) => {
-        gsap.from(card, {
-          opacity: 0,
-          x: index % 2 === 0 ? -80 : 80,
-          duration: 0.8,
-          delay: index * 0.2,
-          scrollTrigger: {
-            trigger: card,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
+      mm.add(MOTION_OK, () => {
+        // The gradient line is drawn as the reader scrolls through the timeline.
+        gsap.fromTo(
+          lineRef.current,
+          { scaleY: 0 },
+          {
+            scaleY: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: timelineRef.current,
+              start: "top 75%",
+              end: "bottom 65%",
+              scrub: 0.5,
+            },
           },
+        );
+
+        // Each dot pops in as the line reaches it.
+        gsap.utils.toArray<HTMLElement>(".timeline-dot").forEach((dot) => {
+          gsap.from(dot, {
+            scale: 0.4,
+            opacity: 0,
+            duration: 0.5,
+            ease: "back.out(2.5)",
+            scrollTrigger: { trigger: dot, start: "top 75%", once: true },
+          });
         });
       });
-
-      // Timeline dots animation
-      const dots = timelineRef.current?.querySelectorAll(".timeline-dot");
-      dots?.forEach((dot, index) => {
-        gsap.from(dot, {
-          scale: 0,
-          duration: 0.4,
-          delay: 0.3 + index * 0.2,
-          ease: "back.out(2)",
-          scrollTrigger: {
-            trigger: dot,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
+    },
+    { scope: sectionRef },
+  );
 
   return (
     <section
       ref={sectionRef}
       id="experience"
-      className="relative py-24 lg:py-32 overflow-hidden"
+      className="relative py-20 sm:py-24 lg:py-32 overflow-hidden"
     >
       {/* Background elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#3b82f6]/5 rounded-full blur-[150px]" />
+      <div
+        aria-hidden="true"
+        className="orb orb-blue top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] [--orb-alpha:0.07]"
+      />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section heading */}
-        <div ref={headingRef} className="text-center mb-16">
-          <span className="inline-block text-sm font-medium text-[#3b82f6] uppercase tracking-wider mb-3">
-            {t("experience.badge")}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
-            {t("experience.title")}{" "}
-            <span className="text-gradient">{t("experience.titleAccent")}</span>
-          </h2>
-          <div className="w-20 h-1 bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] mx-auto rounded-full" />
-          <p className="mt-4 text-gray-400 max-w-2xl mx-auto">
-            {t("experience.subtitle")}
-          </p>
-        </div>
+        <SectionHeading
+          badge={t("experience.badge")}
+          title={t("experience.title")}
+          accent={t("experience.titleAccent")}
+          subtitle={t("experience.subtitle")}
+        />
 
         {/* Timeline */}
         <div ref={timelineRef} className="relative">
-          {/* Central line - visible on lg screens */}
+          {/* Track + progress line: left rail on mobile, centered on lg */}
           <div
-            ref={lineRef}
-            className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 -translate-x-1/2 timeline-line rounded-full"
-          />
-
-          {/* Mobile line */}
-          <div className="lg:hidden absolute left-6 top-0 bottom-0 w-1 timeline-line rounded-full" />
+            aria-hidden="true"
+            className="absolute left-4 sm:left-6 lg:left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 rounded-full bg-[#1e293b]"
+          >
+            <div
+              ref={lineRef}
+              className="h-full w-full origin-top rounded-full bg-gradient-to-b from-[#3b82f6] to-[#06b6d4]"
+            />
+          </div>
 
           {/* Experience items */}
-          <div className="space-y-12 lg:space-y-0">
+          <ol className="space-y-8 sm:space-y-12 lg:space-y-0">
             {experiences.map((exp, index) => (
-              <div
+              <li
                 key={exp.id}
                 className={`relative lg:grid lg:grid-cols-2 lg:gap-8 ${
                   index !== experiences.length - 1 ? "lg:pb-16" : ""
@@ -186,18 +155,22 @@ export default function Experience() {
               >
                 {/* Timeline dot */}
                 <div
-                  className={`timeline-dot absolute left-6 lg:left-1/2 w-4 h-4 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] border-4 border-[#0a0f1c] z-10 lg:-translate-x-1/2 top-6`}
-                />
+                  aria-hidden="true"
+                  className="absolute left-4 sm:left-6 lg:left-1/2 top-6 z-10 -translate-x-1/2"
+                >
+                  <div className="timeline-dot w-4 h-4 rounded-full bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] ring-4 ring-[#0a0f1c] shadow-[0_0_12px_rgba(59,130,246,0.6)]" />
+                </div>
 
                 {/* Content */}
                 <div
-                  className={`experience-card ml-16 lg:ml-0 ${
+                  data-reveal={index % 2 === 0 ? "left" : "right"}
+                  className={`ml-10 sm:ml-16 lg:ml-0 ${
                     index % 2 === 0
                       ? "lg:pr-16 lg:text-right"
                       : "lg:col-start-2 lg:pl-16"
                   }`}
                 >
-                  <div className="glass rounded-2xl p-6 hover:bg-[#111827]/80 transition-colors group">
+                  <div className="glass rounded-2xl p-5 sm:p-6 hover:bg-[#111827]/90 hover:border-[#3b82f6]/30 transition-colors duration-300 group">
                     {/* Header */}
                     <div
                       className={`flex flex-wrap items-center gap-3 mb-4 ${
@@ -205,11 +178,11 @@ export default function Experience() {
                       }`}
                     >
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#3b82f6]/20 text-[#3b82f6] text-sm">
-                        <Calendar className="w-3 h-3" />
+                        <Calendar className="w-3 h-3" aria-hidden="true" />
                         {exp.period}
                       </span>
                       <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#06b6d4]/20 text-[#06b6d4] text-sm">
-                        <MapPin className="w-3 h-3" />
+                        <MapPin className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
                         {exp.location}
                       </span>
                     </div>
@@ -219,14 +192,18 @@ export default function Experience() {
                       <h3 className="text-xl font-bold text-white group-hover:text-gradient transition-colors">
                         {exp.role}
                       </h3>
-                      <div className="flex items-center gap-2 text-gray-400 mt-1">
-                        <Briefcase className="w-4 h-4" />
+                      <div
+                        className={`flex items-center gap-2 text-gray-400 mt-1 ${
+                          index % 2 === 0 ? "lg:justify-end" : ""
+                        }`}
+                      >
+                        <Briefcase className="w-4 h-4" aria-hidden="true" />
                         <span>{exp.company}</span>
                       </div>
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-400 mb-4 leading-relaxed">
+                    <p className="text-gray-400 mb-4 leading-relaxed text-pretty">
                       {exp.description}
                     </p>
 
@@ -240,11 +217,16 @@ export default function Experience() {
                         {exp.achievements.map((achievement, i) => (
                           <li
                             key={i}
-                            className={`flex items-center gap-2 text-sm text-gray-300 ${
+                            className={`flex items-start gap-2 text-sm text-gray-300 ${
                               index % 2 === 0 ? "lg:flex-row-reverse" : ""
                             }`}
                           >
-                            <ChevronRight className="w-4 h-4 text-[#3b82f6] flex-shrink-0" />
+                            <ChevronRight
+                              aria-hidden="true"
+                              className={`w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0 ${
+                                index % 2 === 0 ? "lg:rotate-180" : ""
+                              }`}
+                            />
                             <span>{achievement}</span>
                           </li>
                         ))}
@@ -271,9 +253,9 @@ export default function Experience() {
 
                 {/* Empty column for alternating layout */}
                 {index % 2 === 0 && <div className="hidden lg:block" />}
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>
